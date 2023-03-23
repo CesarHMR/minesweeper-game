@@ -3,6 +3,7 @@ let fields = []
 let mines = []
 let fieldsToClean = 0
 let flagsToUse = 0
+let elementOnFocus
 
 function SetGameGrid(gridSize, minesAmount){
     fieldsToClean = (gridSize * gridSize) - minesAmount
@@ -31,6 +32,7 @@ function CreateField(index, gridSize){
     field.id = index
 
     field.onclick = () => {
+
         if(field.classList.contains('flag')) return
         if(field.classList.contains('revealed')) return
 
@@ -48,8 +50,8 @@ function CreateField(index, gridSize){
         }
     }
 
-    field.onauxclick = () => {
-        
+    field.oncontextmenu = () => {
+
         if(field.classList.contains('flag'))
         {
             field.classList.remove('flag')
@@ -60,7 +62,12 @@ function CreateField(index, gridSize){
             if(flagsToUse <= 0) return
             field.classList.add('flag')
             flagsToUse--
-        }
+        }    
+    }
+
+    field.onmousedown = () => {
+        field.classList.add('focus')
+        elementOnFocus = field
     }
 
     return field
@@ -92,16 +99,35 @@ function SetFieldNumber(index, gridSize){
     allSides.push(index + gridSize < gridSize * gridSize ? index + gridSize: undefined) //bot
     allSides.push(index % gridSize != 0 ? index - 1 : undefined) //left
     allSides.push((index + 1) % gridSize != 0 ? index + 1 : undefined) //right
-    allSides.push(allSides[0] && allSides[2] ? index - gridSize - 1  : undefined) //top left
-    allSides.push(allSides[0] && allSides[3] ? index - gridSize + 1  : undefined) //top right
-    allSides.push(allSides[1] && allSides[2] ? index + gridSize - 1  : undefined) //bot left
-    allSides.push(allSides[1] && allSides[3] ? index + gridSize + 1  : undefined) //bot right
+    allSides.push(allSides[0] !== undefined && allSides[2] !== undefined ? index - gridSize - 1  : undefined) //top left
+    allSides.push(allSides[0] !== undefined && allSides[3] !== undefined ? index - gridSize + 1  : undefined) //top right
+    allSides.push(allSides[1] !== undefined && allSides[2] !== undefined ? index + gridSize - 1  : undefined) //bot left
+    allSides.push(allSides[1] !== undefined && allSides[3] !== undefined ? index + gridSize + 1  : undefined) //bot right
     
     minesCount = allSides.filter(side => {
         return side !== undefined ? fields[side].classList.contains('mine') : false
     })
     
-    console.log(index, minesCount)
+    console.log('index - ' + index)
+    console.log('minescount - ' + minesCount)
+
+    const sides = {
+        top: allSides[0],
+        bot: allSides[1],
+        left: allSides[2],
+        right: allSides[3],
+        topLeft: allSides[4],
+        topRight: allSides[5],
+        botLeft: allSides[6],
+        botRight: allSides[7]
+    }
+    console.log(sides)
+    console.log('-------------')
 
     return minesCount.length
 }
+window.addEventListener('mouseup', () => {
+    console.log('hellow')
+    elementOnFocus.addeve
+    elementOnFocus.classList.remove('focus')
+})
