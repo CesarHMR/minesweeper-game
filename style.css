@@ -1,3 +1,8 @@
+@font-face {
+    font-family: Odin Rounded;
+    src: url(OdinRounded.otf);
+}
+
 *{
     box-sizing: border-box;
     margin: 0;
@@ -74,7 +79,7 @@ body{
 
 .field.revealed{
     background-color: var(--color-revealed);
-    animation: expand 300ms ease;
+    animation: expand 120ms ease;
 }
 
 .field.mine.revealed{
@@ -129,9 +134,9 @@ body.blue{
 
 @keyframes expand {
     0%{
-        transform: rotateZ(0deg) scale(1);
+        transform: rotateZ(0deg) scale(.8);
     }
-    80%{
+    50%{
         transform: rotateZ(0deg) scale(1.1);
     }
     100%{
