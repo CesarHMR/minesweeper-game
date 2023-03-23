@@ -2,9 +2,11 @@ const gameGrid = document.querySelector('#game-grid')
 let fields = []
 let mines = []
 let fieldsToClean = 0
+let flagsToUse = 0
 
 function SetGameGrid(gridSize, minesAmount){
     fieldsToClean = (gridSize * gridSize) - minesAmount
+    flagsToUse = minesAmount
 
     for (let index = 0; index < gridSize * gridSize; index++) {
         fields.push(CreateField(index, gridSize))
@@ -47,13 +49,17 @@ function CreateField(index, gridSize){
     }
 
     field.onauxclick = () => {
+        
         if(field.classList.contains('flag'))
         {
             field.classList.remove('flag')
+            flagsToUse++
         }
         else
         {
+            if(flagsToUse <= 0) return
             field.classList.add('flag')
+            flagsToUse--
         }
     }
 
@@ -61,7 +67,10 @@ function CreateField(index, gridSize){
 }
 
 function EndGame(key){
-    alert('END GAME')
+    setTimeout(() => {
+        alert('END GAME')
+
+    }, 1200)
 }
 
 function WinGame(){
@@ -72,6 +81,8 @@ function ResetGame(){
     gameGrid.innerHTML = ''
     fields = []
     mines = []
+    fieldsToClean = 0
+    flagsToUse = 0
 }
 
 function SetFieldNumber(index, gridSize){
@@ -90,7 +101,7 @@ function SetFieldNumber(index, gridSize){
         return side !== undefined ? fields[side].classList.contains('mine') : false
     })
     
-    console.log(minesCount)
-    console.log(minesCount.length)
+    console.log(index, minesCount)
+
     return minesCount.length
 }

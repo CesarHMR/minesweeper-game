@@ -7,43 +7,134 @@
 body{
     width: 100vw;
     height: 100vh;
+}
 
+#canva{
+    width: 100%;
+    height: 100%;
+    
     overflow: hidden;
+    background-color: var(--color-background);
+    border-radius: 1rem;
+    
+    display: grid;
+    grid-template-rows: 2rem auto 100vw;
+}
 
-    display: flex;
-    grid-template-rows: auto 100vw;
+#title-bar{
+    background-color: var(--color-title);
+    grid-row:  1 / 2;
 }
 
 #game-header{
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+
+    grid-row:  2 / 3;
+}
+
+#game-header p{
+    text-align: center;
+    color: var(--color-font);
 }
 
 #game-grid{
     width: 100vw;
     height: 100vw;
-
+    
+    padding: 1rem;
+    
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
+    grid-gap: .3rem;
+    
+    grid-row:  3 / 4;
 }
 
 .field{
-    color: black;
+    border-radius: .6rem;
+    border: none;
+    color: var(--color-font);
     font-size: 2rem;
-    background-color: greenyellow;
-    border: solid 2px green;
+    
+    background-color: var(--color);
+    transform: scale(1);
+
+    transition: all 100ms ease;
+}
+
+.field:hover{
+    background-color: var(--color-hover);
 }
 
 .field.revealed{
-    background-color: rgb(47, 179, 255);
-    border: solid 2px rgb(0, 82, 177);
+    background-color: var(--color-revealed);
+    animation: expand 300ms ease;
 }
 
 .field.mine.revealed{
-    background-color: rgb(247, 121, 62);
-    border: solid 2px red;
+    background-color: var(--color-mine);
+    animation: shake 300ms ease;
 }
 
 .field.flag{
     background-color: rgb(255, 189, 9);
-    border: solid 2px rgb(255, 115, 0);
+}
+
+body.purple{
+    --color: #4A475B;
+    --color-hover: #605f69;
+    --color-revealed: #8848f0;
+    --color-mine: #ff6450;
+    --color-background: #2F2D39;
+    --color-title: #4A475B;
+    --color-font: #ffffff;
+}
+
+body.blue{
+    --color: #8759F8;
+    --color-hover: #956ef8;
+    --color-revealed: #62dfba;
+    --color-mine: #ff6450;
+    --color-background: #1b1f31;
+    --color-title: #4A475B;
+}
+
+.field:active{
+    transform: scale(.8);
+}
+
+@keyframes shake {
+    0%{
+        transform: rotateZ(0deg);
+    }
+    25%{
+        transform: rotateZ(-3deg);
+    }
+    50%{
+        transform: rotateZ(3deg);
+    }
+    75%{
+        transform: rotateZ(-3deg);
+    }
+    100%{
+        transform: rotateZ(0deg);
+    }
+}
+
+@keyframes expand {
+    0%{
+        transform: rotateZ(0deg) scale(1);
+    }
+    80%{
+        transform: rotateZ(0deg) scale(1.1);
+    }
+    100%{
+        transform: rotateZ(0deg) scale(1);
+    }
 }
