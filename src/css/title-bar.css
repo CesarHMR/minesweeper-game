@@ -1,0 +1,58 @@
+#title-bar{
+    background-color: var(--color);
+    grid-row:  1 / 2;
+    
+    display: grid;
+    grid-template-columns: auto 2.5rem 2.5rem 2.5rem;
+    align-items: center;
+}
+
+#title-bar div{
+    height: 100%;
+    width: 100%;
+    -webkit-app-region: drag;
+
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: .5rem;
+}
+
+#title-bar div img{
+    height: 1.5rem;
+    padding-left: .5rem;
+}
+
+#title-bar button{
+    appearance: none;
+    outline: none;
+    border: none;
+
+    background-color: var(--color);
+    height: 100%;
+    width: 2.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#title-bar button:hover{
+    background-color: var(--color-hover);
+}
+
+#title-bar button#close:hover{
+    background-color: var(--color-mine);
+}
+
+#title-bar button img{
+    filter: drop-shadow(0px 2px 0px var(--shadow));
+}
+
+#title-bar button:hover img{
+    filter: drop-shadow(0px 2px 0px var(--shadow-hover));
+}
+
+#title-bar button#close:hover img{
+    filter: drop-shadow(0px 2px 0px var(--shadow-mine));
+}

@@ -26,8 +26,7 @@ function SetGameGrid(gridSize, minesAmount){
 }
 
 function CreateField(index, gridSize){
-    const field = document.createElement('input')
-    field.type = 'button'
+    const field = document.createElement('button')
     field.classList.add('field')
     field.id = index
 
@@ -39,11 +38,14 @@ function CreateField(index, gridSize){
         field.classList.add('revealed')
         if(field.classList.contains('mine'))
         {
+            setTimeout(() => {
+                field.classList.add('explosion')
+            }, 700)
             EndGame()
         }
         else
         {
-            field.value = SetFieldNumber(index, gridSize)
+            field.innerText = SetFieldNumber(index, gridSize)
             fieldsToClean--
             if(fieldsToClean <= 0)
                 WinGame()
@@ -75,7 +77,7 @@ function CreateField(index, gridSize){
 
 function EndGame(key){
     setTimeout(() => {
-        alert('END GAME')
+        //alert('END GAME')
 
     }, 1200)
 }
@@ -128,6 +130,5 @@ function SetFieldNumber(index, gridSize){
 }
 window.addEventListener('mouseup', () => {
     console.log('hellow')
-    elementOnFocus.addeve
     elementOnFocus.classList.remove('focus')
 })

@@ -17,49 +17,48 @@
     border: none;
     color: var(--color-font);
     font-size: 2rem;
-    
-    background-color: var(--color);
-    transform: scale(1);
 
+    background-color: var(--color);
+    box-shadow: 0px 3px 0px var(--shadow);
+    
+    transform: scale(1);
+    position: relative;
+    z-index: 0;
     transition: all 100ms ease;
 }
 
 .field:hover{
     background-color: var(--color-hover);
+    box-shadow: 0px 3px 0px var(--shadow-hover);
 }
 
 .field.revealed{
     background-color: var(--color-revealed);
+    box-shadow: 0px 3px 0px var(--shadow-revealed);
     animation: expand 120ms ease;
 }
 
 .field.mine.revealed{
     background-color: var(--color-mine);
+    box-shadow: 0px 3px 0px var(--shadow-mine);
     animation: shake 300ms ease;
+    background-image: url(../images/bomb.svg);
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: 50%;
+}
+
+.field.mine.revealed.explosion{
+    background-image: url(../images/explosion.svg);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: 45%;
 }
 
 .field.flag{
-    background-color: rgb(255, 189, 9);
+    background-color: var(--color-flag);
+    box-shadow: 0px 3px 0px var(--shadow-flag);
     animation: expand 120ms ease;
-}
-
-body.purple{
-    --color: #4A475B;
-    --color-hover: #605f69;
-    --color-revealed: #8848f0;
-    --color-mine: #ff6450;
-    --color-background: #2F2D39;
-    --color-title: #4A475B;
-    --color-font: #ffffff;
-}
-
-body.blue{
-    --color: #8759F8;
-    --color-hover: #956ef8;
-    --color-revealed: #62dfba;
-    --color-mine: #ff6450;
-    --color-background: #1b1f31;
-    --color-title: #4A475B;
 }
 
 .field.focus{
@@ -94,4 +93,13 @@ body.blue{
     100%{
         transform: rotateZ(0deg) scale(1);
     }
+}
+
+.field::before{
+    content: 'aa';
+    width: 100rem;
+    height: 100rem;
+    opacity: 1;
+    position: absolute;
+    z-index: 10;
 }

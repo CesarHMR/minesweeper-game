@@ -29,12 +29,6 @@ body{
     grid-template-rows: 2rem auto 100vw;
 }
 
-#title-bar{
-    -webkit-app-region: drag;
-    background-color: var(--color-title);
-    grid-row:  1 / 2;
-}
-
 #game-header{
     width: 100%;
     height: 100%;
