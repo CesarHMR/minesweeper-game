@@ -1,7 +1,8 @@
 {
   "name": "minesweeper",
   "version": "1.0.0",
-  "description": "",
+  "description": "A donut themed minesweeper made with electron!",
+  "icon": "./src/images/icons/icon_256.png",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
