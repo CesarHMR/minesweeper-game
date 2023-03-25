@@ -129,6 +129,5 @@ function SetFieldNumber(index, gridSize){
     return minesCount.length
 }
 window.addEventListener('mouseup', () => {
-    console.log('hellow')
-    elementOnFocus.classList.remove('focus')
+    elementOnFocus?.classList.remove('focus')
 })

@@ -1,17 +1,26 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
+const path = require('path')
 
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 300,
         height: 400,
-        //titleBarStyle: 'hidden',
+        titleBarStyle: 'hidden',
         autoHideMenuBar: true,
         resizable: false,
         transparent: true, 
-        frame: false
+        frame: false,
+        webPreferences: {
+            //nodeIntegration: true,
+            //contextIsolation: false,
+            preload: path.join(__dirname, 'preload.js'),
+        }
     })
-  
-    win.loadFile('./src/index.html')
+    
+    ipcMain.handle('close', () => win.close())
+    ipcMain.handle('minimize', () => win.minimize())
+    
+    win.loadFile(path.join(__dirname, 'src', 'index.html'))
 }
 
 app.whenReady().then(() => {
