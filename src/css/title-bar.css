@@ -1,5 +1,5 @@
 #title-bar{
-    background-color: var(--color);
+    background-color: var(--color-revealed);
     grid-row:  1 / 2;
     
     display: grid;
@@ -11,7 +11,10 @@
     height: 100%;
     width: 100%;
     -webkit-app-region: drag;
-
+    
+    box-shadow: 0px 3px 0px var(--shadow-revealed);
+    color: var(--color-font);
+    
     display: flex;
     align-items: center;
     justify-content: start;
@@ -21,16 +24,18 @@
 #title-bar div img{
     height: 1.5rem;
     padding-left: .5rem;
+    filter: drop-shadow(0px 0px 2px var(--shadow-revealed));
 }
 
 #title-bar button{
     appearance: none;
     outline: none;
     border: none;
-
-    background-color: var(--color);
+    
     height: 100%;
     width: 2.5rem;
+    background-color: var(--color-revealed);
+    box-shadow: 0px 3px 0px var(--shadow-revealed);
 
     display: flex;
     align-items: center;
@@ -38,21 +43,29 @@
 }
 
 #title-bar button:hover{
-    background-color: var(--color-hover);
+    background-color: #ffadc7;
+    box-shadow: 0px 3px 0px var(--shadow-revealed-hover);
 }
 
 #title-bar button#close:hover{
     background-color: var(--color-mine);
+    box-shadow: 0px 3px 0px var(--shadow-mine);
 }
 
 #title-bar button img{
-    filter: drop-shadow(0px 2px 0px var(--shadow));
+    transform: scale(1);
+    transition: all 100ms ease-out;
+    filter: drop-shadow(0px 2px 0px var(--shadow-revealed));
 }
 
 #title-bar button:hover img{
-    filter: drop-shadow(0px 2px 0px var(--shadow-hover));
+    filter: drop-shadow(0px 2px 0px var(--shadow-revealed));
 }
 
 #title-bar button#close:hover img{
     filter: drop-shadow(0px 2px 0px var(--shadow-mine));
+}
+
+#title-bar button:active img{
+    transform: scale(.8);
 }

@@ -42,23 +42,21 @@
     background-color: var(--color-mine);
     box-shadow: 0px 3px 0px var(--shadow-mine);
     animation: shake 300ms ease;
-    background-image: url(../images/bomb.svg);
+    background-image: url(../images/explosion.svg);
     background-repeat: no-repeat;
     background-size: 70%;
     background-position: 50%;
-}
-
-.field.mine.revealed.explosion{
-    background-image: url(../images/explosion.svg);
-    background-repeat: no-repeat;
-    background-size: 80%;
-    background-position: 45%;
 }
 
 .field.flag{
     background-color: var(--color-flag);
     box-shadow: 0px 3px 0px var(--shadow-flag);
     animation: expand 120ms ease;
+    
+    background-image: url(../images/bomb.svg);
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: 60% 40%;
 }
 
 .field.focus{
@@ -96,10 +94,33 @@
 }
 
 .field::before{
-    content: 'aa';
-    width: 100rem;
-    height: 100rem;
-    opacity: 1;
+    content: '';
+
+    width: 100%;
+    height: 100%;
+
+    background-color: white;
+    border-radius: 0.6rem;
+
+    opacity: 0;
+    
     position: absolute;
+    top: 0;
+    left: 0;
     z-index: 10;
+}
+
+.field.revealed::before{
+    animation: grow 300ms ease-out;
+}
+
+@keyframes grow {
+    from{
+        opacity: .8;
+        transform: scale(1);
+    }
+    to{
+        opacity: 0;
+        transform: scale(1.5);
+    }
 }

@@ -38,9 +38,6 @@ function CreateField(index, gridSize){
         field.classList.add('revealed')
         if(field.classList.contains('mine'))
         {
-            setTimeout(() => {
-                field.classList.add('explosion')
-            }, 700)
             EndGame()
         }
         else

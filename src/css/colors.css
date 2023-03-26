@@ -1,15 +1,20 @@
 body.purple{
-    --color: #B3DBCF;
-    --color-hover: #C9FFEF;
-    --color-revealed: #FF98B9;
-    --color-flag: #E3DCFF;
+    --color: #73EEC9;
+    --color-hover: #8EFFDD;
+    --color-revealed: #FF7CA6;
+    --color-flag: #FFEB3A;
     --color-mine: #7A58FF;
-    --color-background: #84B4B1;
+    --color-background: #4bb897;
     --color-font: #FFE1EB;
     
-    --shadow: #52A19D;
-    --shadow-hover: #73DAD3;
-    --shadow-revealed: #FF6999;
-    --shadow-flag: #8B7CCA;
+    --shadow: #13A579;
+    --shadow-hover: #00E19D;
+    --shadow-revealed: #BF456C;
+    --shadow-revealed-hover: #d36386;
+    --shadow-flag: #C57B0D;
     --shadow-mine: #603DEB;
+
+    --label: #379e7f;
+    --label-font: #a6f3dc;
+    --label-shadow: #A58B63;
 }
