@@ -12,7 +12,6 @@ const createWindow = () => {
         titleBarStyle: 'hidden',
         autoHideMenuBar: true,
         resizable: false,
-        transparent: true, 
         frame: false,
         webPreferences: {
             //nodeIntegration: true,
@@ -21,8 +20,8 @@ const createWindow = () => {
         }
     })
     
-    ipcMain.handle('close', () => window.close())
-    ipcMain.handle('minimize', () => window.hide())
+    ipcMain.handle('close', () => window.hide())
+    ipcMain.handle('minimize', () => window.minimize())
     
     window.loadFile(path.join(__dirname, 'src', 'index.html'))
 
@@ -32,6 +31,7 @@ const createWindow = () => {
 function createTray(icon){
     const tray = new Tray(icon)
     const contextMenu = Menu.buildFromTemplate([
+        { label: 'Open' , click: () => mainWindow.show() },
         { label: quitPhrases[getRandomNumber(0,quitPhrases.length)] , click: () => app.quit() },
     ])
     tray.setContextMenu(contextMenu)

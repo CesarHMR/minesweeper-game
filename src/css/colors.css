@@ -1,4 +1,5 @@
 body.purple{
+    background-color: transparent !important;
     --color: #73EEC9;
     --color-hover: #8EFFDD;
     --color-revealed: #FF7CA6;
