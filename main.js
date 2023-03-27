@@ -21,8 +21,8 @@ const createWindow = () => {
         }
     })
     
-    ipcMain.handle('close', () => window.hide())
-    ipcMain.handle('minimize', () => window.minimize())
+    ipcMain.handle('close', () => window.close())
+    ipcMain.handle('minimize', () => window.hide())
     
     window.loadFile(path.join(__dirname, 'src', 'index.html'))
 
@@ -62,7 +62,7 @@ app.on('before-quit', () => {
 const quitPhrases = [
     'Donut leave!!!',
     'Donut shut it down, please!',
-    'I Donut believe that you leaving!',
+    'I Donut believe that you are leaving!',
     'Dunot do this!',
     'Dunot click this button!'
 ]

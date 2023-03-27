@@ -1,11 +1,40 @@
+// class Game {
+//     field = []
+//     mines = []
+//     fieldsToClean = 0
+//     flagsToUse = 0
+//     elementOnFocus
+//     fieldsToAnimate = []
+
+//     constructor(){
+//         this.gameGrid = document.querySelector('#game-grid')
+//     }
+// }
+
 const gameGrid = document.querySelector('#game-grid')
 let fields = []
 let mines = []
 let fieldsToClean = 0
 let flagsToUse = 0
 let elementOnFocus
+let fieldsToAnimate = []
 
-function SetGameGrid(gridSize, minesAmount){
+const gameDifficulties = {
+    easy: {
+        gridSize: 5,
+        minesAmount: 4,
+    },
+    medium: {
+        gridSize: 8,
+        minesAmount: 10
+    },
+    hard:{
+        gridSize: 10,
+        minesAmount: 25
+    }
+}
+
+function SetNewGame(gridSize, minesAmount){
     fieldsToClean = (gridSize * gridSize) - minesAmount
     flagsToUse = minesAmount
 
@@ -35,18 +64,16 @@ function CreateField(index, gridSize){
         if(field.classList.contains('flag')) return
         if(field.classList.contains('revealed')) return
 
-        field.classList.add('revealed')
-        if(field.classList.contains('mine'))
-        {
-            EndGame()
+        ClearField(field, index, gridSize)
+        PlayFieldsAnimation(fieldsToAnimate)
+        
+        if(field.classList.contains('mine')){
+            LoseGame()
         }
-        else
-        {
-            field.innerText = SetFieldNumber(index, gridSize)
-            fieldsToClean--
-            if(fieldsToClean <= 0)
-                WinGame()
-        }
+
+        if(fieldsToClean <= 0){
+            WinGame()
+        }        
     }
 
     field.oncontextmenu = () => {
@@ -72,15 +99,12 @@ function CreateField(index, gridSize){
     return field
 }
 
-function EndGame(key){
-    setTimeout(() => {
-        //alert('END GAME')
-
-    }, 1200)
+function LoseGame(){
+    PlaySound('lose')
 }
 
 function WinGame(){
-    alert('WIN GAME')
+    PlaySound('win')
 }
 
 function ResetGame(){
@@ -91,18 +115,9 @@ function ResetGame(){
     flagsToUse = 0
 }
 
-function SetFieldNumber(index, gridSize){
-    allSides = []
-    
-    allSides.push(index - gridSize >= 0 ? index - gridSize : undefined) //top
-    allSides.push(index + gridSize < gridSize * gridSize ? index + gridSize: undefined) //bot
-    allSides.push(index % gridSize != 0 ? index - 1 : undefined) //left
-    allSides.push((index + 1) % gridSize != 0 ? index + 1 : undefined) //right
-    allSides.push(allSides[0] !== undefined && allSides[2] !== undefined ? index - gridSize - 1  : undefined) //top left
-    allSides.push(allSides[0] !== undefined && allSides[3] !== undefined ? index - gridSize + 1  : undefined) //top right
-    allSides.push(allSides[1] !== undefined && allSides[2] !== undefined ? index + gridSize - 1  : undefined) //bot left
-    allSides.push(allSides[1] !== undefined && allSides[3] !== undefined ? index + gridSize + 1  : undefined) //bot right
-    
+function CountMinesArround(index, gridSize){
+    allSides = GetFieldsArroun(index, gridSize)
+
     minesCount = allSides.filter(side => {
         return side !== undefined ? fields[side].classList.contains('mine') : false
     })
@@ -125,6 +140,62 @@ function SetFieldNumber(index, gridSize){
 
     return minesCount.length
 }
+
+function GetFieldsArroun(index, gridSize){
+    allSides = []
+    
+    allSides.push(index - gridSize >= 0 ? index - gridSize : undefined) //top
+    allSides.push(index + gridSize < gridSize * gridSize ? index + gridSize: undefined) //bot
+    allSides.push(index % gridSize != 0 ? index - 1 : undefined) //left
+    allSides.push((index + 1) % gridSize != 0 ? index + 1 : undefined) //right
+    allSides.push(allSides[0] !== undefined && allSides[2] !== undefined ? index - gridSize - 1  : undefined) //top left
+    allSides.push(allSides[0] !== undefined && allSides[3] !== undefined ? index - gridSize + 1  : undefined) //top right
+    allSides.push(allSides[1] !== undefined && allSides[2] !== undefined ? index + gridSize - 1  : undefined) //bot left
+    allSides.push(allSides[1] !== undefined && allSides[3] !== undefined ? index + gridSize + 1  : undefined) //bot right
+
+    return allSides
+}
+
+function ClearFieldsArround(index, gridSize){
+    allSides = GetFieldsArroun(index, gridSize)
+    allSides.forEach(fieldIndex => {
+        if(fieldIndex !== undefined){
+
+            const field = document.getElementById(fieldIndex)
+
+            if(field.classList.contains('revealed') == false && !fieldsToAnimate.includes(field)){
+                ClearField(field, fieldIndex, gridSize)
+            }
+        }
+    })
+}
+
+function ClearField(field, index, gridSize){
+    const minesArround = CountMinesArround(index, gridSize)
+    if(!field.classList.contains('mine')){
+        field.innerText = minesArround === 0 ? '' : minesArround
+        fieldsToClean--
+    }
+
+    fieldsToAnimate.push(field)
+    
+    if(minesArround === 0 && !field.classList.contains('mine')){   
+        ClearFieldsArround(index, gridSize)
+    }
+}
+
+function PlayFieldsAnimation(){
+    let timeToWait = 0
+    fieldsToAnimate.forEach(field => {
+        setTimeout(() => {
+            field.classList.add('revealed')
+            PlaySound('click')
+        }, timeToWait);
+        timeToWait += 200
+    })
+    fieldsToAnimate = []
+}
+
 window.addEventListener('mouseup', () => {
     elementOnFocus?.classList.remove('focus')
 })

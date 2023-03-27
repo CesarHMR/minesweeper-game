@@ -5,6 +5,9 @@
     display: grid;
     grid-template-columns: auto 2.5rem 2.5rem 2.5rem;
     align-items: center;
+
+    position: relative;
+    z-index: 2;
 }
 
 #title-bar div{

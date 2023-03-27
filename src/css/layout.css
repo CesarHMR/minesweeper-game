@@ -24,6 +24,7 @@ body{
     overflow: hidden;
     background-color: var(--color-background);
     border-radius: 1rem;
+    position: relative;
     
     display: grid;
     grid-template-rows: 2rem auto 100vw;
