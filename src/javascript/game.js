@@ -1,6 +1,9 @@
 class Game {
     gameGridReference
-    
+    bombDisplayer
+    timerDisplayer
+    timer
+
     fields = []
 
     gridSize = 0
@@ -21,12 +24,15 @@ class Game {
         },
         hard:{
             gridSize: 10,
-            minesAmount: 25
+            minesAmount: 20
         }
     }
 
     constructor(){
         this.gameGridReference = document.querySelector('#game-grid')
+        this.bombDisplayer = new Displayer('#bomb-label p')
+        this.timerDisplayer = new Displayer('#timer-label p')
+        this.timer = new Timer(this.timerDisplayer)
     }
 
     SetNewGame(difficulytMode) {
@@ -34,7 +40,7 @@ class Game {
         this.gameGridReference.innerHTML = ''
         this.gridSize = this.difficultyModes[difficulytMode].gridSize
         this.minesAmount = this.difficultyModes[difficulytMode].minesAmount
-        root.style.setProperty('--gridSize', this.gridSize);
+        document.querySelector(':root').style.setProperty('--gridSize', this.gridSize);
     
         for (let index = 0; index < this.gridSize * this.gridSize; index++) {
             this.fields.push({
@@ -55,7 +61,11 @@ class Game {
             this.elementOnFocus?.classList.remove('focus')
         }
 
+
         //Display the game
+        this.bombDisplayer.Display(this.minesAmount)
+        this.timer.Reset()
+        this.timer.Start()
     }
 
     CreateFieldElement(field){
@@ -78,10 +88,16 @@ class Game {
     
     LoseGame(){
         PlaySound('lose')
+        setTimeout(() => {
+            menu.SetMenuOn()
+        }, 1000)
     }
     
     WinGame(){
         PlaySound('win')
+        setTimeout(() => {
+            menu.SetMenuOn()
+        }, 1000)
     }
        
     CountMinesArround(field){
@@ -150,13 +166,14 @@ class Game {
         })
     }
     
-    PlayFieldsAnimation(){
+    PlayFieldsAnimation(hasMine){
         let timeToWait = 0
         this.fieldsToAnimate.forEach(field => {
             setTimeout(() => {
                 field.classList.add('revealed')
                 PlaySound('click')
             }, timeToWait);
+
             timeToWait += 200
         })
         this.fieldsToAnimate = []
@@ -176,7 +193,7 @@ class Game {
         if(field.hasFlag) return
 
         this.ClearField(field)
-        this.PlayFieldsAnimation(this.fieldsToAnimate)
+        this.PlayFieldsAnimation()
         
         if(field.hasMine){
             this.LoseGame()
@@ -197,17 +214,22 @@ class Game {
         {
             field.HTMLelement.classList.add('flag')
             field.hasFlag = true
+            PlaySound('click')
         }    
+        this.bombDisplayer.Display(this.minesAmount - this.GetFlagsAmount())
     }
 
-    HaveFlagsAvailable(){
+    GetFlagsAmount(){
         let flagsAmount = 0
         this.fields.forEach(field => {
             if(field.hasFlag) flagsAmount++
         })
+        return flagsAmount
+    }
 
+    HaveFlagsAvailable(){
+        const flagsAmount = this.GetFlagsAmount()
         if(flagsAmount > this.minesAmount) console.error('ERROR - More flags than mines!');
-
         return this.minesAmount > flagsAmount
     }
 }

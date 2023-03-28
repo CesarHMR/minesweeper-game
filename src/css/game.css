@@ -13,7 +13,7 @@
 }
 
 .field{
-    border-radius: .6rem;
+    border-radius:  calc(3rem / var(--gridSize));
     border: none;
     color: transparent;
     font-size: calc(10rem / var(--gridSize));

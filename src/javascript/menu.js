@@ -1,24 +1,41 @@
-const root = document.querySelector(':root')
-const menu = document.querySelector('#menu')
+class Menu{
+    menuReference
+    easeButton
+    mediumButton
+    hardButton
 
-function EasyButton(){
-    console.log('easy')
-    game.SetNewGame('easy')
-    SetMenuOff()
+    constructor(){
+        this.menuReference = document.querySelector('#menu')
+        this.easeButton = document.querySelector('#easeButton')
+        this.mediumButton = document.querySelector('#mediumButton')
+        this.hardButton = document.querySelector('#hardButton')
+        this.easeButton.onclick = () => this.EasyButton()
+        this.mediumButton.onclick = () => this.MediumButton()
+        this.hardButton.onclick = () => this.HardButton()
+    }
+    
+    EasyButton(){
+        game.SetNewGame('easy')
+        this.SetMenuOff()
+    }
+    
+    MediumButton(){
+        game.SetNewGame('medium')
+        this.SetMenuOff()
+    }
+    
+    HardButton(){
+        game.SetNewGame('hard')
+        this.SetMenuOff()
+    }
+    
+    SetMenuOff(){
+        this.menuReference.style.display = 'none'
+    }
+
+    SetMenuOn(){
+        this.menuReference.style.display = 'flex'
+    }
 }
 
-function MediumButton(){
-    console.log('medium')
-    game.SetNewGame('medium')
-    SetMenuOff()
-}
-
-function HardButton(){
-    console.log('hard')
-    game.SetNewGame('hard')
-    SetMenuOff()
-}
-
-function SetMenuOff(){
-    menu.style.display = 'none'
-}
+const menu = new Menu()

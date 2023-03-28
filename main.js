@@ -12,6 +12,7 @@ const createWindow = () => {
         titleBarStyle: 'hidden',
         autoHideMenuBar: true,
         resizable: false,
+        transparent: true,
         frame: false,
         webPreferences: {
             //nodeIntegration: true,
