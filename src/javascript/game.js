@@ -89,14 +89,14 @@ class Game {
     LoseGame(){
         PlaySound('lose')
         setTimeout(() => {
-            menu.SetMenuOn()
+            menu.SetWinScreenOn()
         }, 1000)
     }
     
     WinGame(){
         PlaySound('win')
         setTimeout(() => {
-            menu.SetMenuOn()
+            menu.SetWinScreenOn()
         }, 1000)
     }
        

@@ -1,9 +1,11 @@
 #win-screen{
     width: 100%;
     height: 100%;
+    opacity: 0;
+    pointer-events: none;
     
     position: absolute;
-    z-index: 1;
+    z-index: 10;
 
     grid-row: 1 / 4;
 
@@ -14,7 +16,11 @@
     gap: 1rem;
 }
 
-#win-screen > p{
+#win-screen.on, #win-screen.off{
+    opacity: 1;
+}
+
+#win-screen #new-highscore{
     color: white;
     font-size: 2rem;
     text-align: center;
@@ -22,16 +28,26 @@
 
     position: absolute;
     top: 15%;
-    z-index: 10;
+    z-index: 100;
+}
 
-    animation: grow 700ms 500ms ease forwards;
+#win-screen.on #new-highscore{
+    opacity: 0;
+    animation: expand 700ms 500ms ease forwards;
+}
+
+#win-screen.off #new-highscore{
+    opacity: 1;
+    animation: retract 700ms ease forwards;
 }
 
 #trophy{
     position: absolute;
-    z-index: 6;
+    z-index: 60;
     bottom: 29%;
+}
 
+#win-screen.on #trophy{
     animation: pop-up 1100ms ease forwards;
 }
 
@@ -41,9 +57,10 @@
 
 #timer-win{
     position: absolute;
-    z-index: 10;
+    z-index: 100;
     bottom: 15%;
     width: 5rem;
+    opacity: 0;
 
     display: flex;
     align-items: center;
@@ -51,9 +68,16 @@
     gap: 1rem;
     flex-direction: row;
 
-    opacity: 0;
+}
 
-    animation: grow 700ms 600ms ease forwards;
+#win-screen.on #timer-win{
+    opacity: 0;
+    animation: expand 700ms 600ms ease forwards;
+}
+
+#win-screen.off #timer-win{
+    opacity: 1;
+    animation: retract 700ms 600ms ease forwards;
 }
 
 #timer-win img{
@@ -69,46 +93,49 @@
     width: calc(6rem * var(--size));
     height: calc(6rem * var(--size));
     border-radius: 100%;
-    animation: grow calc(250ms * var(--time)) ease forwards;
     position: absolute;
 }
 
+#win-screen.on .circle{
+    animation: expand calc(250ms * var(--time)) ease forwards;
+}
+
 #win-screen.off .circle{
-    transform: scale(0) !important;
+    animation: retract calc(150ms * var(--time)) ease forwards;
 }
 
 #circle-1{
     --time: 2;
     --size: 1;
-    z-index: 5;
+    z-index: 50;
     background-color: #008B61;
 }
 
 #circle-2{
     --time: 3;
     --size: 2;
-    z-index: 4;
+    z-index: 40;
     background-color: #00A976;
 }
 
 #circle-3{
     --time: 4;
     --size: 3;
-    z-index: 3;
+    z-index: 30;
     background-color: #00BD84;
 }
 
 #circle-4{
     --time: 5;
     --size: 4;
-    z-index: 2;
+    z-index: 20;
     background-color: #00DE9B;
 }
 
 #circle-5{
     --time: 6;
     --size: 5;
-    z-index: 1;
+    z-index: 10;
     background-color: #00FDB1;
 }
 
@@ -128,7 +155,7 @@
     0%{
         transform: scale(1) rotate(0deg);
     }
-    50%{
+    60%{
         transform: scale(1.2) rotate(20deg);
     }
     100%{
@@ -136,7 +163,7 @@
     }
 }
 
-@keyframes grow {
+@keyframes expand {
     0%{
         transform: scale(0);
         opacity: 1;
@@ -147,6 +174,21 @@
     }
     100%{
         transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes retract {
+    0%{
+        transform: scale(1);
+        opacity: 1;
+    }
+    30%{
+        transform: scale(1.03);
+        opacity: 1;
+    }
+    100%{
+        transform: scale(0);
         opacity: 1;
     }
 }

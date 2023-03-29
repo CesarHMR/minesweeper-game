@@ -43,11 +43,17 @@ class Menu{
 
     SetWinScreenOn(){
         this.winReference.classList.remove('off')
-    }
+        this.winReference.classList.add('on')
 
+        setTimeout(() => {
+            this.SetWinScreenOff()
+            this.SetMenuOn()
+        }, 3000);
+    }
+    
     SetWinScreenOff(){
+        this.winReference.classList.remove('on')
         this.winReference.classList.add('off')
     }
 }
-
 const menu = new Menu()
