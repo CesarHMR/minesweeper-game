@@ -33,7 +33,7 @@ function createTray(icon){
     const tray = new Tray(icon)
     const contextMenu = Menu.buildFromTemplate([
         { label: 'Open' , click: () => mainWindow.show() },
-        { label: quitPhrases[getRandomNumber(0,quitPhrases.length)] , click: () => app.quit() },
+        { label: quitPhrases[getRandomInteger(0,quitPhrases.length)] , click: () => app.quit() },
     ])
     tray.setContextMenu(contextMenu)
     tray.setToolTip('Open Donut Sweeper')
@@ -61,13 +61,13 @@ app.on('before-quit', () => {
 })
 
 const quitPhrases = [
-    'Donut leave!!!',
+    'Donut leave meee!',
     'Donut shut it down, please!',
     'I Donut believe that you are leaving!',
     'Dunot do this!',
     'Dunot click this button!'
 ]
 
-function getRandomNumber(min, max){
-    return Math.round((Math.random() * max) + min)
+function getRandomInteger(min, max){ //min inclusive, max exclusive
+    return Math.floor((Math.random() * (max - min)) + min)
 }

@@ -1,11 +1,15 @@
 class Menu{
     menuReference
+    winReference
+
     easeButton
     mediumButton
     hardButton
 
     constructor(){
         this.menuReference = document.querySelector('#menu')
+        this.winReference = document.querySelector('#win-screen')
+
         this.easeButton = document.querySelector('#easeButton')
         this.mediumButton = document.querySelector('#mediumButton')
         this.hardButton = document.querySelector('#hardButton')
@@ -35,6 +39,14 @@ class Menu{
 
     SetMenuOn(){
         this.menuReference.style.display = 'flex'
+    }
+
+    SetWinScreenOn(){
+        this.winReference.classList.remove('off')
+    }
+
+    SetWinScreenOff(){
+        this.winReference.classList.add('off')
     }
 }
 

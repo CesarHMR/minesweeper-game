@@ -32,9 +32,7 @@ class Timer{
 
     FormatTime(){       
         const minutes = Math.floor(this.time / 60)
-        console.log(minutes)
-        const seconds = this.time - (minutes * 60)
-        console.log(seconds)
+        const seconds = this.time % 60
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
     }
 }
