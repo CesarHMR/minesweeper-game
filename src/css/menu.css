@@ -6,7 +6,7 @@
     z-index: 1;
 
     grid-row: 1 / 4;
-    background-color: rgb(1, 151, 106);
+    background: linear-gradient(0deg, #0c9e6e, rgb(38, 248, 185));
 
     display: flex;
     align-items: center;
@@ -46,19 +46,25 @@
     filter: drop-shadow(0px 0px 0px var(--shadow-revealed));
 }
 
-#menu #img{
+/* ----- Dunot Jumping -----*/
+
+#donut-jump{
     position: absolute;
     bottom: -250px;
     width: 100%;
     
-    animation: jump 2000ms ease-in-out infinite;
+    animation: jump 6000ms 1000ms ease-in-out infinite;
 
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#menu #img img{
+#donut-move{
+    animation: move 6000ms 1000ms ease-in-out infinite;
+}
+
+#donut-img{
     animation: spin 3000ms linear infinite;
 }
 
@@ -78,12 +84,30 @@
 
 @keyframes jump {
     0%{
-        transform: translateY(0);
+        transform: translateY(300px);
     }
-    50%{
+    25%{
         transform: translateY(-250px);
     }
+    50%{
+        transform: translateY(300px);
+    }
+    75%{
+        transform: translateY(-150px);
+    }
     100%{
-        transform: translateY(0px);
+        transform: translateY(300px);
+    }
+}
+
+@keyframes move {
+    0%{
+        transform: translateX(90px);
+    }
+    50%{
+        transform:  translateX(-90px);
+    }
+    100%{
+        transform: translateX(90px);
     }
 }

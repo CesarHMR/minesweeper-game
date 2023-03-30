@@ -13,33 +13,48 @@
 }
 
 .field{
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.field div{
+    width: 100%;
+    height: 100%;
+
     border-radius:  calc(3rem / var(--gridSize));
     border: none;
-    color: transparent;
-    font-size: calc(10rem / var(--gridSize));
-    
     background-color: var(--color);
     box-shadow: 0px 3px 0px var(--shadow);
+
+    color: transparent;
+    font-size: calc(10rem / var(--gridSize));    
     
     transform: scale(1);
     position: relative;
     z-index: 0;
     transition: all 100ms ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
 }
 
-.field:hover{
+.field:hover div{
     background-color: var(--color-hover);
     box-shadow: 0px 3px 0px var(--shadow-hover);
 }
 
-.field.revealed{
+.field.revealed div{
     color: var(--color-font);
     background-color: var(--color-revealed);
     box-shadow: 0px 3px 0px var(--shadow-revealed);
     animation: expand 120ms ease;
 }
 
-.field.mine.revealed{
+.field.mine.revealed div{
     background-color: var(--color-mine);
     box-shadow: 0px 3px 0px var(--shadow-mine);
     animation: shake 300ms ease;
@@ -49,7 +64,7 @@
     background-position: 50%;
 }
 
-.field.flag{
+.field.flag div{
     background-color: var(--color-flag);
     box-shadow: 0px 3px 0px var(--shadow-flag);
     animation: expand 120ms ease;
@@ -60,7 +75,7 @@
     background-position: 60% 40%;
 }
 
-.field.focus{
+.field.focus div{
     transform: scale(.8);
 }
 
@@ -94,7 +109,7 @@
     }
 }
 
-.field::before{
+.field div::before{
     content: '';
 
     width: 100%;
@@ -111,7 +126,7 @@
     z-index: 10;
 }
 
-.field.revealed::before{
+.field.revealed div::before{
     animation: grow 300ms ease-out;
 }
 

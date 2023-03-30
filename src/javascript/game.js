@@ -70,6 +70,7 @@ class Game {
 
     CreateFieldElement(field){
         field.HTMLelement = document.createElement('button')
+        field.HTMLelement.appendChild(document.createElement('div'))
         field.HTMLelement.classList.add('field')
         if(field.hasMine){
             field.HTMLelement.classList.add('mine')
@@ -87,14 +88,14 @@ class Game {
     }
     
     LoseGame(){
-        PlaySound('lose')
+        audioManager.PlaySound('lose')
         setTimeout(() => {
             menu.SetWinScreenOn()
         }, 1000)
     }
     
     WinGame(){
-        PlaySound('win')
+        audioManager.PlaySound('win')
         setTimeout(() => {
             menu.SetWinScreenOn()
         }, 1000)
@@ -142,7 +143,7 @@ class Game {
         const minesArround = this.CountMinesArround(field)
         
         if(!field.hasMine){
-            field.HTMLelement.innerText = minesArround !== 0 ? minesArround: ''
+            field.HTMLelement.firstChild.innerText = minesArround !== 0 ? minesArround: ''
         }
     
         this.fieldsToAnimate.push(field.HTMLelement)
@@ -171,7 +172,7 @@ class Game {
         this.fieldsToAnimate.forEach(field => {
             setTimeout(() => {
                 field.classList.add('revealed')
-                PlaySound('click')
+                audioManager.PlaySound('click')
             }, timeToWait);
 
             timeToWait += 200
@@ -214,7 +215,7 @@ class Game {
         {
             field.HTMLelement.classList.add('flag')
             field.hasFlag = true
-            PlaySound('click')
+            audioManager.PlaySound('click')
         }    
         this.bombDisplayer.Display(this.minesAmount - this.GetFlagsAmount())
     }

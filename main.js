@@ -64,8 +64,8 @@ const quitPhrases = [
     'Donut leave meee!',
     'Donut shut it down, please!',
     'I Donut believe that you are leaving!',
-    'Dunot do this!',
-    'Dunot click this button!'
+    'Donut do this!',
+    'Donut click this button!'
 ]
 
 function getRandomInteger(min, max){ //min inclusive, max exclusive
