@@ -19,6 +19,18 @@ class AudioManager{
             loop: false,
             mixer: 'fx'
         },
+        bite_1: {
+            audio: [],
+            volume: 0.2,
+            loop: false,
+            mixer: 'fx'
+        },
+        bite_2: {
+            audio: [],
+            volume: 0.2,
+            loop: false,
+            mixer: 'fx'
+        },
         music: {
             audio: [],
             volume: 0.05,
@@ -40,6 +52,8 @@ class AudioManager{
         this.audioConfigs['click'].audio = this.CreateAudioPool('./sounds/click.mp3', 4)
         this.audioConfigs['win'].audio = this.CreateAudioPool('./sounds/win.mp3', 1)
         this.audioConfigs['lose'].audio = this.CreateAudioPool('./sounds/lose.mp3', 1)
+        this.audioConfigs['bite_1'].audio = this.CreateAudioPool('./sounds/bite_1.mp3', 1)
+        this.audioConfigs['bite_2'].audio = this.CreateAudioPool('./sounds/bite_2.mp3', 1)
         this.audioConfigs['music'].audio = this.CreateAudioPool('./sounds/music.mp3', 1)
     }
 

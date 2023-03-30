@@ -34,7 +34,10 @@ class Menu{
     }
     
     SetMenuOff(){
-        this.menuReference.style.display = 'none'
+        this.BiteAnimation(() => {
+            this.menuReference.style.display = 'none'
+            this.menuReference.className = ''
+        })
     }
 
     SetMenuOn(){
@@ -54,6 +57,34 @@ class Menu{
     SetWinScreenOff(){
         this.winReference.classList.remove('on')
         this.winReference.classList.add('off')
+    }
+
+    BiteAnimation(callback){
+        setTimeout(() => {
+            this.menuReference.className = 'bite-1'
+            audioManager.PlaySound('bite_2')
+            setTimeout(() => {
+                this.menuReference.className = 'bite-2'
+                audioManager.PlaySound('bite_1')
+                setTimeout(() => {
+                    this.menuReference.className = 'bite-3'
+                    audioManager.PlaySound('bite_2')
+                    setTimeout(() => {
+                        this.menuReference.className = 'bite-4'
+                        audioManager.PlaySound('bite_1')
+                        setTimeout(() => {
+                            this.menuReference.className = 'bite-5'
+                            audioManager.PlaySound('bite_2')
+                            callback()
+                        }, 300)
+                
+                    }, 300)
+            
+                }, 300)
+        
+            }, 300)
+    
+        }, 300)
     }
 }
 const menu = new Menu()

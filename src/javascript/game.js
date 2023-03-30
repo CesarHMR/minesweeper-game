@@ -23,8 +23,8 @@ class Game {
             minesAmount: 10
         },
         hard:{
-            gridSize: 10,
-            minesAmount: 20
+            gridSize: 12,
+            minesAmount: 25
         }
     }
 
