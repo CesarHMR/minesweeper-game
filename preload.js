@@ -1,6 +1,20 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
-contextBridge.exposeInMainWorld('titleBar', {
-    closeApplication: () => ipcRenderer.invoke('close'),
-    minimizeApplication: () => ipcRenderer.invoke('minimize'),
-})
+contextBridge.exposeInMainWorld(
+    "api", {
+        send: (channel, data) => {
+            // whitelist channels
+            let validChannels = ['close', 'minimize', 'save-data', 'read-data'];
+            if (validChannels.includes(channel)) {
+                ipcRenderer.send(channel, data);
+            }
+        },
+        receive: (channel, func) => {
+            let validChannels = ['data-readed'];
+            if (validChannels.includes(channel)) {
+                // Deliberately strip event as it includes `sender` 
+                ipcRenderer.on(channel, (event, ...args) => func(...args));
+            }
+        }
+    }
+);

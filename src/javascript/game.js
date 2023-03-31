@@ -86,21 +86,22 @@ class Game {
 
         this.gameGridReference.appendChild(field.HTMLelement)
     }
+
+    ClearField(field){
+        field.isRevealed= true
+        const minesArround = this.CountMinesArround(field)
+        
+        if(!field.hasMine){
+            field.HTMLelement.firstChild.innerText = minesArround !== 0 ? minesArround: ''
+        }
     
-    LoseGame(){
-        audioManager.PlaySound('lose')
-        setTimeout(() => {
-            menu.SetWinScreenOn()
-        }, 1000)
+        this.fieldsToAnimate.push(field.HTMLelement)
+        
+        if(minesArround === 0 && !field.hasMine){   
+            this.ClearFieldsArround(field)
+        }
     }
-    
-    WinGame(){
-        audioManager.PlaySound('win')
-        setTimeout(() => {
-            menu.SetWinScreenOn()
-        }, 1000)
-    }
-       
+           
     CountMinesArround(field){
         const allSides = this.GetFieldsArround(field)
     
@@ -138,21 +139,6 @@ class Game {
         return allSides
     }
         
-    ClearField(field){
-        field.isRevealed= true
-        const minesArround = this.CountMinesArround(field)
-        
-        if(!field.hasMine){
-            field.HTMLelement.firstChild.innerText = minesArround !== 0 ? minesArround: ''
-        }
-    
-        this.fieldsToAnimate.push(field.HTMLelement)
-        
-        if(minesArround === 0 && !field.hasMine){   
-            this.ClearFieldsArround(field)
-        }
-    }
-
     ClearFieldsArround(field){
         const allSides = this.GetFieldsArround(field)
         allSides.forEach(fieldIndex => {
@@ -180,15 +166,6 @@ class Game {
         this.fieldsToAnimate = []
     }
     
-    CheckWinCondition(){
-        let satisfiesWinCondition = true
-        this.fields.forEach(field => {
-            if(!field.hasMine && !field.isRevealed)
-                satisfiesWinCondition = false
-        })
-        return satisfiesWinCondition
-    }
-
     RevealField(field){
         if(field.isRevealed) return
         if(field.hasFlag) return
@@ -232,6 +209,36 @@ class Game {
         const flagsAmount = this.GetFlagsAmount()
         if(flagsAmount > this.minesAmount) console.error('ERROR - More flags than mines!');
         return this.minesAmount > flagsAmount
+    }
+
+    CheckWinCondition(){
+        let satisfiesWinCondition = true
+        this.fields.forEach(field => {
+            if(!field.hasMine && !field.isRevealed)
+                satisfiesWinCondition = false
+        })
+        return satisfiesWinCondition
+    }
+
+    LoseGame(){
+        audioManager.PlaySound('lose')
+        setTimeout(() => {
+            menu.SetWinScreenOn()
+        }, 1000)
+    }
+    
+    WinGame(){
+        this.timer.Stop()
+        this.CheckHighscore(this.timer.GetTime())
+
+        audioManager.PlaySound('win')
+        setTimeout(() => {
+            menu.SetWinScreenOn()
+        }, 1000)
+    }
+    
+    CheckHighscore(time, difficultMode){
+        
     }
 }
 

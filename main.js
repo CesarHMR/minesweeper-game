@@ -1,5 +1,7 @@
 const { app, BrowserWindow, Tray, nativeImage, Menu, ipcMain } = require('electron');
 const path = require('path')
+const fs = require('fs');
+const { fileURLToPath } = require('url');
 
 let mainWindow;
 let tray;
@@ -15,15 +17,13 @@ const createWindow = () => {
         transparent: true,
         frame: false,
         webPreferences: {
-            //nodeIntegration: true,
-            //contextIsolation: false,
+            nodeIntegration: false,
+            contextIsolation: true,
+            enableRemoteModule: false,
             preload: path.join(__dirname, 'preload.js'),
         }
     })
-    
-    ipcMain.handle('close', () => window.hide())
-    ipcMain.handle('minimize', () => window.minimize())
-    
+        
     window.loadFile(path.join(__dirname, 'src', 'index.html'))
 
     return window
@@ -60,6 +60,24 @@ app.on('before-quit', () => {
     tray.destroy()
 })
 
+ipcMain.on('save-data', (event, data) => {
+    fs.writeFileSync(path.join(__dirname, 'src', 'data', 'save.json'), data)
+    console.log('Sucess!')
+})
+
+ipcMain.on('read-data', (event) => {
+    const file = fs.readFileSync(path.join(__dirname, 'src', 'data' , 'save.json'), 'utf8')
+    event.sender.send('data-readed', file)
+})
+
+
+function getRandomInteger(min, max){ //min inclusive, max exclusive
+    return Math.floor((Math.random() * (max - min)) + min)
+}
+
+ipcMain.on('close', () => mainWindow.hide())
+ipcMain.on('minimize', () => mainWindow.minimize())
+
 const quitPhrases = [
     'Donut leave meee!',
     'Donut shut it down, please!',
@@ -67,7 +85,3 @@ const quitPhrases = [
     'Donut do this!',
     'Donut click this button!'
 ]
-
-function getRandomInteger(min, max){ //min inclusive, max exclusive
-    return Math.floor((Math.random() * (max - min)) + min)
-}
