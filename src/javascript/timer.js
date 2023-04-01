@@ -3,7 +3,7 @@ class Timer{
     displayer           //reference to the displayer
     intervalReference   //reference to setInterval
     startTimePause      //track of the time the timer was paused
-    timePaused          //amount of time the timer stayed paused - to remove from total time
+    timePaused = 0      //amount of time the timer stayed paused - to remove from total time
 
     totalTime
 
@@ -12,43 +12,44 @@ class Timer{
     }
 
     Start(){
-            this.displayer.Display(this.FormatTime())
+        this.totalTime = 0
         this.startTime = Date.now()
+    }
+
+    Stop(){
+        this.totalTime = this.GetTime()
     }
         
     Pause(){
         this.startTimePause = Date.now()
+        this.StopDisplaying()
     }
-
+    
     Continue(){
-        this.timePaused += this.startTimePause + Date.now()
-    }
-
-    Stop(){
-        this.totalTime
+        this.timePaused += Date.now() - this.startTimePause
+        this.StartDisplaying()
     }
 
     GetTime(){
-        return (this.startTime - Date.now() - this.timePaused) / 1000
+        return (Date.now() - this.startTime - this.timePaused) / 1000
     }
 
     FormatTime(){
-        const time = GetTime()
+        const time = this.GetTime()
         const minutes = Math.floor(time / 60)
-        const seconds = time % 60
+        const seconds = Math.floor(time) % 60
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
     }
 
     StartDisplaying(){
         this.intervalReference = setInterval(() => {
             this.displayer.Display(this.FormatTime())
-        }, 1000)
+        }, 500)
     }
 
     StopDisplaying(){
         if(this.intervalReference === undefined) return
         
         clearInterval(this.intervalReference)
-        this.displayer.Display(this.time)
     }
 }

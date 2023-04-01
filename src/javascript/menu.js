@@ -34,10 +34,7 @@ class Menu{
     }
     
     SetMenuOff(){
-        this.BiteAnimation(() => {
-            this.menuReference.style.display = 'none'
-            this.menuReference.className = ''
-        })
+        this.Bite(1)
     }
 
     SetMenuOn(){
@@ -45,13 +42,15 @@ class Menu{
     }
 
     SetWinScreenOn(){
-        this.winReference.classList.remove('off')
         this.winReference.classList.add('on')
+        this.winReference.classList.remove('off')
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                this.SetWinScreenOff()
+                this.SetMenuOn()
+            }, 3000);    
+        })
 
-        setTimeout(() => {
-            this.SetWinScreenOff()
-            this.SetMenuOn()
-        }, 3000);
     }
     
     SetWinScreenOff(){
@@ -59,31 +58,17 @@ class Menu{
         this.winReference.classList.add('off')
     }
 
-    BiteAnimation(callback){
+    Bite(index){
         setTimeout(() => {
-            this.menuReference.className = 'bite-1'
-            audioManager.PlaySound('bite_2')
-            setTimeout(() => {
-                this.menuReference.className = 'bite-2'
-                audioManager.PlaySound('bite_1')
-                setTimeout(() => {
-                    this.menuReference.className = 'bite-3'
-                    audioManager.PlaySound('bite_2')
-                    setTimeout(() => {
-                        this.menuReference.className = 'bite-4'
-                        audioManager.PlaySound('bite_1')
-                        setTimeout(() => {
-                            this.menuReference.className = 'bite-5'
-                            audioManager.PlaySound('bite_2')
-                            callback()
-                        }, 300)
-                
-                    }, 300)
-            
-                }, 300)
-        
-            }, 300)
-    
+            console.log(index)
+            this.menuReference.className = index == 5 ? '' : `bite-${index}`
+            audioManager.PlaySound(`bite_${index % 2 == 0 ? 2 : 1}`)
+            if(index < 5){
+                window.requestAnimationFrame(() => this.Bite(index + 1));
+            }
+            else{
+                window.requestAnimationFrame(() => this.menuReference.style.display = 'none')
+            }
         }, 300)
     }
 }

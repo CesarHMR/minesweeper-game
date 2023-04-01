@@ -69,8 +69,8 @@ class Game {
 
         //Display the game
         this.bombDisplayer.Display(this.minesAmount)
-        this.timer.Reset()
         this.timer.Start()
+        this.timer.StartDisplaying()
     }
 
     CreateFieldElement(field){
@@ -234,7 +234,7 @@ class Game {
     
     WinGame(){
         this.timer.Stop()
-        this.CheckHighscore(this.timer.GetTime())
+        this.CheckHighscore(this.timer.totalTime)
 
         audioManager.PlaySound('win')
         setTimeout(() => {
