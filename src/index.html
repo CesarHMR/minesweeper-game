@@ -33,15 +33,20 @@
 
         <div id="menu">
             <div id="donut-jump"><div id="donut-move"><img id="donut-img" src="./images/icons/icon_256.png"></div></div>
-            <h1>Start a new game!</h1>
-            <button id="easeButton">Quick</button>
-            <button id="mediumButton">Longer</button>
-            <button id="hardButton">Jorney</button>
+            <h1>Choose the size of your <span>Donut</span>!</h1>
+            <button id="easeButton">Small</button>
+            <button id="mediumButton">Big</button>
+            <button id="hardButton">Huge</button>
         </div>
 
         <div id="title-bar">
             <div><img src="./images/icons/icon_64.png">donutsweeper</div>
-            <button id="settings">  <img src="./images/gear.svg">   </button>
+            <button id="settings">  <img src="./images/gear.svg"> 
+            <div id="settings-menu">
+                <input type="range" id="fx-slider" min="0" max="100">
+                <input type="range" id="music-slider" min="0" max="100">
+            </div>
+            </button>
             <button id="minimize">  <img src="./images/dash.svg">   </button>
             <button id="close">     <img src="./images/x.svg">      </button>
         </div>
@@ -67,5 +72,6 @@
     <script src="./javascript/game.js"></script>
     <script src="./javascript/menu.js"></script>
     <script src="./javascript/audio.js"></script>
+    <script src="./javascript/windowManager.js"></script>
 </body>
 </html>

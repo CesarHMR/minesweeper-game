@@ -10,6 +10,7 @@ class Game {
     minesAmount = 0
 
     fieldsToAnimate = []
+    fieldAnimationTime
 
     elementOnFocus
 
@@ -17,14 +18,17 @@ class Game {
         easy: {
             gridSize: 5,
             minesAmount: 4,
+            fieldAnimationTime: 200
         },
         medium: {
             gridSize: 8,
-            minesAmount: 10
+            minesAmount: 10,
+            fieldAnimationTime: 150
         },
         hard:{
             gridSize: 12,
-            minesAmount: 25
+            minesAmount: 25,
+            fieldAnimationTime: 100
         }
     }
 
@@ -40,6 +44,7 @@ class Game {
         this.gameGridReference.innerHTML = ''
         this.gridSize = this.difficultyModes[difficulytMode].gridSize
         this.minesAmount = this.difficultyModes[difficulytMode].minesAmount
+        this.fieldAnimationTime = this.difficultyModes[difficulytMode].fieldAnimationTime
         document.querySelector(':root').style.setProperty('--gridSize', this.gridSize);
     
         for (let index = 0; index < this.gridSize * this.gridSize; index++) {
@@ -153,7 +158,7 @@ class Game {
         })
     }
     
-    PlayFieldsAnimation(hasMine){
+    PlayFieldsAnimation(){
         let timeToWait = 0
         this.fieldsToAnimate.forEach(field => {
             setTimeout(() => {
@@ -161,7 +166,7 @@ class Game {
                 audioManager.PlaySound('click')
             }, timeToWait);
 
-            timeToWait += 200
+            timeToWait += this.fieldAnimationTime
         })
         this.fieldsToAnimate = []
     }
@@ -240,6 +245,10 @@ class Game {
     CheckHighscore(time, difficultMode){
         
     }
+
+    PauseTimer(){this.timer.Pause()}
+
+    ContinueTimer() {this.timer.Continue()}
 }
 
 const game = new Game()

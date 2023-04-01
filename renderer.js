@@ -12,6 +12,16 @@ function SaveData(){
     window.api.send('save-data', JSON.stringify(timeSpan))
 }
 
+class Score{
+    quickHighscore
+    longHighscore
+    jorneyHighscore
+
+    constructor(quick, long, jorney){
+        
+    }
+}
+
 class TimeSpan{
     minutes
     seconds

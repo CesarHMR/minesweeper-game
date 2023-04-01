@@ -82,8 +82,13 @@
 }
 
 #menu h1{
-    margin-bottom: 1rem;
-    color: #004631;
+    width: 14rem;
+    text-align: center;
+    color: #135741;
+}
+
+#menu span{
+    color: #ff256a;
 }
 
 @keyframes spin {

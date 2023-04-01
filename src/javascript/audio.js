@@ -55,6 +55,8 @@ class AudioManager{
         this.audioConfigs['bite_1'].audio = this.CreateAudioPool('./sounds/bite_1.mp3', 1)
         this.audioConfigs['bite_2'].audio = this.CreateAudioPool('./sounds/bite_2.mp3', 1)
         this.audioConfigs['music'].audio = this.CreateAudioPool('./sounds/music.mp3', 1)
+        
+        document.querySelector('#fx-slider').addEventListener('input', () => this.ChangeMixerVolume('fx', this.value))
     }
 
     PlaySound(key){
@@ -66,6 +68,13 @@ class AudioManager{
         audio.loop = config.loop
         audio.currentTime = 0
         audio.play()
+    }
+
+    StopSound(key){
+        const audios = this.audioConfigs[key].audio
+        audios.forEach(audio => {
+            audio.pause()
+        })
     }
     
     CreateAudioPool(src, amount){
@@ -84,8 +93,9 @@ class AudioManager{
         return item 
     }
 
-    ChangeMixerVolume(key, value){
-        let mixerVolume = this.mixerConfigs[key].volume = value
+    ChangeMixerVolume(key, value){ //range from 0 to 1
+        const normalizedValue = value / 100
+        let mixerVolume = this.mixerConfigs[key].volume = normalizedValue
         
         for(const key in this.audioConfigs){
             if(this.audioConfigs[key].mixer == key && this.audioConfigs[key].loop == true){

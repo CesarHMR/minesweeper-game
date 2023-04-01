@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, nativeImage, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, Tray, nativeImage, Menu, ipcMain, ipcRenderer } = require('electron');
 const path = require('path')
 const fs = require('fs');
 const { fileURLToPath } = require('url');
@@ -32,13 +32,19 @@ const createWindow = () => {
 function createTray(icon){
     const tray = new Tray(icon)
     const contextMenu = Menu.buildFromTemplate([
-        { label: 'Open' , click: () => mainWindow.show() },
+        { label: 'Open' , click: () => {
+            mainWindow.show()
+            mainWindow.webContents.send('window-state-changed', 'open')
+        }},
         { label: quitPhrases[getRandomInteger(0,quitPhrases.length)] , click: () => app.quit() },
     ])
     tray.setContextMenu(contextMenu)
     tray.setToolTip('Open Donut Sweeper')
     tray.setTitle('Title')
-    tray.on('click', () => mainWindow.show())
+    tray.on('click', () => {
+        mainWindow.show()
+        mainWindow.webContents.send('window-state-changed', 'open')
+    })
     return tray
 }
 
@@ -75,7 +81,11 @@ function getRandomInteger(min, max){ //min inclusive, max exclusive
     return Math.floor((Math.random() * (max - min)) + min)
 }
 
-ipcMain.on('close', () => mainWindow.hide())
+ipcMain.on('close', (event) => {
+    mainWindow.hide()
+    mainWindow.webContents.send('window-state-changed', 'closed')
+})
+
 ipcMain.on('minimize', () => mainWindow.minimize())
 
 const quitPhrases = [
