@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./css/colors.css">
     <link rel="stylesheet" href="./css/menu.css">
     <link rel="stylesheet" href="./css/win-screen.css">
+    <link rel="stylesheet" href="./css/settings.css">
     <title>Minesweeper</title>
 </head>
 <body class="purple">
@@ -39,14 +40,22 @@
             <button id="hardButton">Huge</button>
         </div>
 
-        <div id="title-bar">
-            <div><img src="./images/icons/icon_64.png">donutsweeper</div>
-            <button id="settings">  <img src="./images/gear.svg"> 
-            <div id="settings-menu">
+        <div id="settings-menu" class="off">
+            <h1>Settings</h1>
+            <label>
+                <p>sounds fx</p>    
                 <input type="range" id="fx-slider" min="0" max="100">
+            </label>
+            <label>
+                <p>music</p>
                 <input type="range" id="music-slider" min="0" max="100">
-            </div>
-            </button>
+            </label>
+            <p>Music by <a target="_blank" href="https://pixabay.com/pt/users/viyn-18464741/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=13253">maulana akbarudin</a> from <a target="blank" href="https://pixabay.com//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=13253">Pixabay</a></p>
+        </div>
+
+        <div id="title-bar">
+            <div>donutsweeper</div>
+            <button id="settings">  <img src="./images/gear.svg">   </button>
             <button id="minimize">  <img src="./images/dash.svg">   </button>
             <button id="close">     <img src="./images/x.svg">      </button>
         </div>
@@ -73,5 +82,7 @@
     <script src="./javascript/menu.js"></script>
     <script src="./javascript/audio.js"></script>
     <script src="./javascript/windowManager.js"></script>
+    <script src="./javascript/settings.js"></script>
+    <script src="./javascript/saveManager.js"></script>
 </body>
 </html>

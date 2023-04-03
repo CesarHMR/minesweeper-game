@@ -27,7 +27,7 @@ class Game {
         },
         hard:{
             gridSize: 12,
-            minesAmount: 25,
+            minesAmount: 22,
             fieldAnimationTime: 100
         }
     }

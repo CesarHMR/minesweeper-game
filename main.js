@@ -66,8 +66,20 @@ app.on('before-quit', () => {
     tray.destroy()
 })
 
+const quitPhrases = [
+    'Donut leave meee!',
+    'Donut shut it down, please!',
+    'I Donut believe that you are leaving!',
+    'Donut do this!',
+    'Donut click this button!'
+]
+
+// ---------- IPC HANDLE ---------- //
+
 ipcMain.on('save-data', (event, data) => {
-    fs.writeFileSync(path.join(__dirname, 'src', 'data', 'save.json'), data)
+    const filepath = data[0]
+    const content = data[1]
+    fs.writeFileSync(path.join(__dirname, 'src', 'data', filepath), content)
     console.log('Sucess!')
 })
 
@@ -76,6 +88,16 @@ ipcMain.on('read-data', (event) => {
     event.sender.send('data-readed', file)
 })
 
+ipcMain.on('read-data-sync', (event, filename) => {
+    const filepath = path.join(__dirname, 'src', 'data', filename)
+    if(fs.existsSync(filepath)){
+        const file = fs.readFileSync(filepath, 'utf8')
+        event.returnValue = file
+    }
+    else{
+        event.returnValue = undefined
+    }
+})
 
 function getRandomInteger(min, max){ //min inclusive, max exclusive
     return Math.floor((Math.random() * (max - min)) + min)
@@ -87,11 +109,3 @@ ipcMain.on('close', (event) => {
 })
 
 ipcMain.on('minimize', () => mainWindow.minimize())
-
-const quitPhrases = [
-    'Donut leave meee!',
-    'Donut shut it down, please!',
-    'I Donut believe that you are leaving!',
-    'Donut do this!',
-    'Donut click this button!'
-]
