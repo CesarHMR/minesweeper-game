@@ -28,38 +28,74 @@
     -webkit-mask-size: 0%;
 }
 
-#menu button{
+#menu-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#menu-buttons button{
     width: 9rem;
-    height: 3rem;
-
-    background-color: var(--color-revealed);
-    border: none;
-    box-shadow: 0px 3px 0px var(--shadow-revealed);
-    animation: expand 120ms ease;
-    border-radius: 0.6rem;
-    color: #5e0823;
-
-    font-size: 1.7rem;
-
+    height: 3.5rem;
     transform: scale(1);
 
+    background-color: var(--color-revealed);
+    color: #5e0823;
+
+    border: none;
+    box-shadow: 0px 3px 0px var(--shadow-revealed);
+    border-radius: 0.6rem;
+    font-size: 1.7rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
     position: relative;
     
+    animation: expand 600ms ease;
     transition: all 100ms ease-out;
 }
 
-#menu button:hover{
+#menu-buttons button:hover{
     background-color: #ff91b4;
     filter: drop-shadow(0px 0px 0px var(--shadow-revealed));
 }
 
-#menu button:active{
+#menu-buttons button:active{
     transform: scale(.9);
     background-color: #e9648e;
     filter: drop-shadow(0px 0px 0px var(--shadow-revealed));
 }
 
-/* ----- Dunot Jumping -----*/
+.button-name{
+    color: white;
+    font-weight: 100;
+    font-size: 2rem;
+}
+
+.button-highscore{
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-highscore img{
+    height: 1rem;
+    display: none;
+}
+
+.button-highscore p{
+    color: #ffb9cf;
+    font-size: .9rem;
+}
+
+/* ----- Dunot Animation -----*/
 
 #donut-jump{
     position: absolute;

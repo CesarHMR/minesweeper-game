@@ -10,9 +10,9 @@ class Menu{
         this.menuReference = document.querySelector('#menu')
         this.winReference = document.querySelector('#win-screen')
 
-        this.easeButton = document.querySelector('#easeButton')
-        this.mediumButton = document.querySelector('#mediumButton')
-        this.hardButton = document.querySelector('#hardButton')
+        this.easeButton = document.querySelector('#small-button')
+        this.mediumButton = document.querySelector('#big-button')
+        this.hardButton = document.querySelector('#huge-button')
         this.easeButton.onclick = () => this.EasyButton()
         this.mediumButton.onclick = () => this.MediumButton()
         this.hardButton.onclick = () => this.HardButton()
@@ -72,4 +72,5 @@ class Menu{
         }, 300)
     }
 }
+
 const menu = new Menu()
