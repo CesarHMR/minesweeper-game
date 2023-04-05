@@ -106,6 +106,3 @@ class AudioManager{
         }
     }
 }
-
-const audioManager = new AudioManager()
-audioManager.PlaySound('music')

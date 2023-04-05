@@ -62,7 +62,7 @@ class Menu{
         setTimeout(() => {
             console.log(index)
             this.menuReference.className = index == 5 ? '' : `bite-${index}`
-            audioManager.PlaySound(`bite_${index % 2 == 0 ? 2 : 1}`)
+            game.managers.audioManager.PlaySound(`bite_${index % 2 == 0 ? 2 : 1}`)
             if(index < 5){
                 window.requestAnimationFrame(() => this.Bite(index + 1));
             }
@@ -74,3 +74,4 @@ class Menu{
 }
 
 const menu = new Menu()
+game.managers.audioManager.PlaySound('music')

@@ -1,4 +1,11 @@
 class Game {
+    managers= {
+        highscoreManager: {},
+        settingsManager: {},
+        saveManager: {},
+        audioManager: {}
+    }
+    
     gameGridReference
     bombDisplayer
     timerDisplayer
@@ -33,6 +40,11 @@ class Game {
     }
 
     constructor(){
+        this.managers.highscoreManager = new HighscoreManager()
+        this.managers.settingsManager = new SettingsManager()
+        this.managers.saveManager = new SaveManager()
+        this.managers.audioManager = new AudioManager()
+
         this.gameGridReference = document.querySelector('#game-grid')
         this.bombDisplayer = new Displayer('#bomb-label p')
         this.timerDisplayer = new Displayer('#timer-label p')
