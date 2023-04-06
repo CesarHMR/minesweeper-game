@@ -5,6 +5,9 @@ class Menu{
     easeButton
     mediumButton
     hardButton
+    smallHighscore
+    bigHoghscore
+    higeHighscore
 
     constructor(){
         this.menuReference = document.querySelector('#menu')
@@ -16,6 +19,10 @@ class Menu{
         this.easeButton.onclick = () => this.EasyButton()
         this.mediumButton.onclick = () => this.MediumButton()
         this.hardButton.onclick = () => this.HardButton()
+
+        this.smallHighscore = document.querySelector('#small-button div p')
+        this.bigHoghscore = document.querySelector('#big-button div p')
+        this.higeHighscore = document.querySelector('#huge-button div p')
     }
     
     EasyButton(){
@@ -39,6 +46,15 @@ class Menu{
 
     SetMenuOn(){
         this.menuReference.style.display = 'flex'
+        this.smallHighscore.innerText = this.FormatTime(game.managers.highscoreManager.GetGameHighscore('small'))
+        this.bigHoghscore.innerText = this.FormatTime(game.managers.highscoreManager.GetGameHighscore('big'))
+        this.higeHighscore.innerText = this.FormatTime(game.managers.highscoreManager.GetGameHighscore('huge'))
+    }
+
+    FormatTime(timeInSeconds){
+        const minutes = Math.floor(timeInSeconds / 60)
+        const seconds = Math.floor(timeInSeconds) % 60
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
     }
 
     SetWinScreenOn(){
@@ -60,7 +76,6 @@ class Menu{
 
     Bite(index){
         setTimeout(() => {
-            console.log(index)
             this.menuReference.className = index == 5 ? '' : `bite-${index}`
             game.managers.audioManager.PlaySound(`bite_${index % 2 == 0 ? 2 : 1}`)
             if(index < 5){

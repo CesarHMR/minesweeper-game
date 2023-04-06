@@ -14,20 +14,21 @@ class SettingsManager{
         this.settingsMenu = document.querySelector('#settings-menu')    
         
 
-        this.fxSlider.addEventListener('input', () => this.SliderInput('fx', fxSlider.value))
-        this.fxSlider.addEventListener('change', () => this.SliderChange('fx', fxSlider.value))
-        this.musicSlider.addEventListener('input', () => this.SliderInput('music', musicSlider.value))
-        this.musicSlider.addEventListener('change', () => this.SliderChange('music', musicSlider.value))
+        this.fxSlider.addEventListener('input', () => this.SliderInput('fx', this.fxSlider.value))
+        this.fxSlider.addEventListener('change', () => this.SliderChange('fx', this.fxSlider.value))
+        this.musicSlider.addEventListener('input', () => this.SliderInput('music', this.musicSlider.value))
+        this.musicSlider.addEventListener('change', () => this.SliderChange('music', this.musicSlider.value))
         
         this.settingsButton.addEventListener('click', () => {
-            if(settingsMenu.classList.contains('off')){
-                settingsMenu.classList.remove('off')
-            }else{
-                settingsMenu.classList.add('off')
-                saveManager.SaveData()
+            if(this.settingsMenu.classList.contains('off'))
+            {
+                this.settingsMenu.classList.remove('off')
+            }
+            else
+            {
+                this.settingsMenu.classList.add('off')
             }
         })
-        
     }
 
     GetSettingsData(){
@@ -50,7 +51,16 @@ class SettingsManager{
 
     SliderChange(){
         const settings = this.GetSettingsData()
-        game.saveManager.SaveData('settings.json', settings)
+        game.managers.saveManager.SaveData('settings.json', settings)
+    }
+
+    Initialize(){
+        const settings = this.GetSettingsData()
+
+        game.managers.audioManager.ChangeMixerVolume('fx', settings['fx'])
+        game.managers.audioManager.ChangeMixerVolume('music', settings['music'])
+        this.fxSlider.value = settings['fx']
+        this.musicSlider.value = settings['music']
     }
 }
 

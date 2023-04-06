@@ -5,12 +5,12 @@ class WindowManager{
     UpdateWindowState(windowState){       
          
         if(windowState == 'closed' && this.currentWindowState != 'closed'){
-            audioManager.StopSound('music')
-            game.PauseTimer()
+            game.managers.audioManager.StopSound('music')
+            game.timer.Pause()
         }
         else if (windowState == 'open' && this.currentWindowState != 'open'){
-            audioManager.PlaySound('music')
-            game.ContinueTimer()
+            game.managers.audioManager.PlaySound('music')
+            game.timer.Continue()
         }
 
         this.currentWindowState = windowState

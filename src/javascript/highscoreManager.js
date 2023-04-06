@@ -4,7 +4,7 @@ class HighscoreManager{
 
     GetHighscoreData(){
         if(this.highscoreData === undefined){
-            this.highscoreData = saveManager.GetHighscoreData()
+            this.highscoreData = game.managers.saveManager.ReadData('highscore.json')
         }
 
         if(this.highscoreData === undefined){
@@ -15,8 +15,9 @@ class HighscoreManager{
     }
 
     SetNewHighscore(key, score){
-        if(this.GetGameHighscore(key) > score){
-            this.GetHighscoreData()[key] = score
+        if(this.GetGameHighscore(key) < score){
+            this.highscoreData[key] = score
+            game.managers.saveManager.SaveData('highscore.json', this.GetHighscoreData())
             return true
         }
 

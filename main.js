@@ -2,6 +2,7 @@ const { app, BrowserWindow, Tray, nativeImage, Menu, ipcMain, ipcRenderer } = re
 const path = require('path')
 const fs = require('fs');
 const { fileURLToPath } = require('url');
+const { Console, log } = require('console');
 
 let mainWindow;
 let tray;
@@ -83,8 +84,8 @@ ipcMain.on('save-data', (event, data) => {
     console.log('Sucess!')
 })
 
-ipcMain.on('read-data', (event) => {
-    const file = fs.readFileSync(path.join(__dirname, 'src', 'data' , 'save.json'), 'utf8')
+ipcMain.on('read-data', (event, filename) => {
+    const file = fs.readFileSync(path.join(__dirname, 'src', 'data' , filename), 'utf8')
     event.sender.send('data-readed', file)
 })
 

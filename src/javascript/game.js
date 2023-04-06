@@ -18,6 +18,7 @@ class Game {
 
     fieldsToAnimate = []
     fieldAnimationTime
+    currentDifficultMode
 
     elementOnFocus
 
@@ -52,6 +53,7 @@ class Game {
     }
 
     SetNewGame(difficulytMode) {
+        this.currentDifficultMode = difficulytMode
         this.fields = []
         this.gameGridReference.innerHTML = ''
         this.gridSize = this.difficultyModes[difficulytMode].gridSize
@@ -175,7 +177,7 @@ class Game {
         this.fieldsToAnimate.forEach(field => {
             setTimeout(() => {
                 field.classList.add('revealed')
-                audioManager.PlaySound('click')
+                this.managers.audioManager.PlaySound('click')
             }, timeToWait);
 
             timeToWait += this.fieldAnimationTime
@@ -209,7 +211,7 @@ class Game {
         {
             field.HTMLelement.classList.add('flag')
             field.hasFlag = true
-            audioManager.PlaySound('click')
+            this.managers.audioManager.PlaySound('click')
         }    
         this.bombDisplayer.Display(this.minesAmount - this.GetFlagsAmount())
     }
@@ -238,7 +240,7 @@ class Game {
     }
 
     LoseGame(){
-        audioManager.PlaySound('lose')
+        this.managers.audioManager.PlaySound('lose')
         setTimeout(() => {
             menu.SetWinScreenOn()
         }, 1000)
@@ -246,21 +248,14 @@ class Game {
     
     WinGame(){
         this.timer.Stop()
-        this.CheckHighscore(this.timer.totalTime)
+        this.managers.highscoreManager.SetNewHighscore(this.currentDifficultMode ,this.timer.totalTime)
 
-        audioManager.PlaySound('win')
+        this.managers.audioManager.PlaySound('win')
         setTimeout(() => {
             menu.SetWinScreenOn()
         }, 1000)
     }
-    
-    CheckHighscore(time, difficultMode){
-        
-    }
-
-    PauseTimer(){this.timer.Pause()}
-
-    ContinueTimer() {this.timer.Continue()}
 }
 
 const game = new Game()
+game.managers.settingsManager.Initialize()

@@ -2,7 +2,7 @@ class SaveManager{
 
     ReadData(filename){
         const file = window.api.sendSync('read-data-sync', filename)
-        return JSON.parse(file)
+        return file === undefined ? undefined : JSON.parse(file)
     }
 
     SaveData(filename ,data){
