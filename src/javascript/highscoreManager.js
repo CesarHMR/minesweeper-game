@@ -8,16 +8,20 @@ class HighscoreManager{
         }
 
         if(this.highscoreData === undefined){
-            this.highscoreData = new HighscoreData(0, 0, 0)
+            this.highscoreData = new HighscoreData(undefined, undefined, undefined)
         }
 
         return this.highscoreData
     }
 
-    SetNewHighscore(key, score){
-        if(this.GetGameHighscore(key) < score){
-            this.highscoreData[key] = score
+    SetNewHighscore(setting, score){
+        const highscore = this.GetGameHighscoreInSeconds(setting)
+
+        if(highscore === undefined || highscore > score){
+            this.highscoreData[setting] = score
             game.managers.saveManager.SaveData('highscore.json', this.GetHighscoreData())
+            menu.NewHighscore(setting)
+            console.log('new highscore')
             return true
         }
 
@@ -29,9 +33,25 @@ class HighscoreManager{
         saveManager.SaveData(highscore)
     }
 
-    GetGameHighscore(key){
+    GetGameHighscoreInSeconds(setting){
         const highscore = this.GetHighscoreData()
-        return highscore[key]
+        return highscore[setting]
+    }
+
+    GetGameHighscoreFormated(setting){
+        const highscore = this.GetGameHighscoreInSeconds(setting)
+
+        if(highscore === undefined) return ''
+
+        const minutes = Math.floor(highscore / 60)
+        const seconds = Math.floor(highscore) % 60
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+    }
+
+    FormatTime(timeInSeconds){
+        const minutes = Math.floor(timeInSeconds / 60)
+        const seconds = Math.floor(timeInSeconds) % 60
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
     }
 }
 

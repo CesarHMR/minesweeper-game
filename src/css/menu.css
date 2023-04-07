@@ -94,6 +94,17 @@
 .button-highscore p{
     color: #ffb9cf;
     font-size: .9rem;
+    transform: scale(1);
+}
+.button-highscore p.new{
+    animation: glow 2000ms 1300ms forwards ease;
+}
+
+@keyframes glow {
+    30%{
+        transform: scale(1.1);
+        color: rgb(255, 230, 0);
+    }
 }
 
 /* ----- Dunot Animation -----*/

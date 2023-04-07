@@ -22,18 +22,18 @@ class Game {
 
     elementOnFocus
 
-    difficultyModes = {
-        easy: {
+    gameSettings = {
+        small: {
             gridSize: 5,
             minesAmount: 4,
             fieldAnimationTime: 200
         },
-        medium: {
+        big: {
             gridSize: 8,
             minesAmount: 10,
             fieldAnimationTime: 150
         },
-        hard:{
+        huge:{
             gridSize: 12,
             minesAmount: 22,
             fieldAnimationTime: 100
@@ -52,13 +52,13 @@ class Game {
         this.timer = new Timer(this.timerDisplayer)
     }
 
-    SetNewGame(difficulytMode) {
-        this.currentDifficultMode = difficulytMode
+    SetNewGame(gameSetting) {
+        this.currentDifficultMode = gameSetting
         this.fields = []
         this.gameGridReference.innerHTML = ''
-        this.gridSize = this.difficultyModes[difficulytMode].gridSize
-        this.minesAmount = this.difficultyModes[difficulytMode].minesAmount
-        this.fieldAnimationTime = this.difficultyModes[difficulytMode].fieldAnimationTime
+        this.gridSize = this.gameSettings[gameSetting].gridSize
+        this.minesAmount = this.gameSettings[gameSetting].minesAmount
+        this.fieldAnimationTime = this.gameSettings[gameSetting].fieldAnimationTime
         document.querySelector(':root').style.setProperty('--gridSize', this.gridSize);
     
         for (let index = 0; index < this.gridSize * this.gridSize; index++) {
@@ -240,6 +240,7 @@ class Game {
     }
 
     LoseGame(){
+        console.log('Lose');
         this.managers.audioManager.PlaySound('lose')
         setTimeout(() => {
             menu.SetWinScreenOn()
@@ -247,6 +248,7 @@ class Game {
     }
     
     WinGame(){
+        console.log('Win');
         this.timer.Stop()
         this.managers.highscoreManager.SetNewHighscore(this.currentDifficultMode ,this.timer.totalTime)
 

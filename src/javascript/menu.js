@@ -2,42 +2,25 @@ class Menu{
     menuReference
     winReference
 
-    easeButton
-    mediumButton
-    hardButton
-    smallHighscore
-    bigHoghscore
-    higeHighscore
+    gameButtons = {}
+    highscoreElements = {}
+   
 
     constructor(){
         this.menuReference = document.querySelector('#menu')
         this.winReference = document.querySelector('#win-screen')
 
-        this.easeButton = document.querySelector('#small-button')
-        this.mediumButton = document.querySelector('#big-button')
-        this.hardButton = document.querySelector('#huge-button')
-        this.easeButton.onclick = () => this.EasyButton()
-        this.mediumButton.onclick = () => this.MediumButton()
-        this.hardButton.onclick = () => this.HardButton()
-
-        this.smallHighscore = document.querySelector('#small-button div p')
-        this.bigHoghscore = document.querySelector('#big-button div p')
-        this.higeHighscore = document.querySelector('#huge-button div p')
+        for(const setting in game.gameSettings){
+            this.gameButtons[setting] = document.querySelector(`#${setting}-button`)
+            this.gameButtons[setting].onclick = () => this.StartNewGame(setting)
+            this.highscoreElements[setting] = document.querySelector(`#${setting}-button div p`)
+        }
     }
     
-    EasyButton(){
-        game.SetNewGame('easy')
+    StartNewGame(setting){
+        game.SetNewGame(setting)
         this.SetMenuOff()
-    }
-    
-    MediumButton(){
-        game.SetNewGame('medium')
-        this.SetMenuOff()
-    }
-    
-    HardButton(){
-        game.SetNewGame('hard')
-        this.SetMenuOff()
+        this.RemoveNewHighscore()
     }
     
     SetMenuOff(){
@@ -46,15 +29,13 @@ class Menu{
 
     SetMenuOn(){
         this.menuReference.style.display = 'flex'
-        this.smallHighscore.innerText = this.FormatTime(game.managers.highscoreManager.GetGameHighscore('small'))
-        this.bigHoghscore.innerText = this.FormatTime(game.managers.highscoreManager.GetGameHighscore('big'))
-        this.higeHighscore.innerText = this.FormatTime(game.managers.highscoreManager.GetGameHighscore('huge'))
+        this.DisplayHighscores()
     }
 
-    FormatTime(timeInSeconds){
-        const minutes = Math.floor(timeInSeconds / 60)
-        const seconds = Math.floor(timeInSeconds) % 60
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+    DisplayHighscores(){
+        for(const setting in game.gameSettings){
+            this.highscoreElements[setting].innerText = game.managers.highscoreManager.GetGameHighscoreFormated(setting)
+        }
     }
 
     SetWinScreenOn(){
@@ -66,7 +47,15 @@ class Menu{
                 this.SetMenuOn()
             }, 3000);    
         })
+    }
 
+    NewHighscore(setting){
+        this.highscoreElements[setting].classList.add('new')
+    }
+    RemoveNewHighscore(){
+        for(const setting in this.highscoreElements){
+            this.highscoreElements[setting].classList.remove('new')
+        }
     }
     
     SetWinScreenOff(){
@@ -89,4 +78,5 @@ class Menu{
 }
 
 const menu = new Menu()
+menu.DisplayHighscores()
 game.managers.audioManager.PlaySound('music')
