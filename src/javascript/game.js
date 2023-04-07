@@ -18,7 +18,7 @@ class Game {
 
     fieldsToAnimate = []
     fieldAnimationTime
-    currentDifficultMode
+    currentGameSetting
 
     elementOnFocus
 
@@ -53,7 +53,7 @@ class Game {
     }
 
     SetNewGame(gameSetting) {
-        this.currentDifficultMode = gameSetting
+        this.currentGameSetting = gameSetting
         this.fields = []
         this.gameGridReference.innerHTML = ''
         this.gridSize = this.gameSettings[gameSetting].gridSize
@@ -242,19 +242,27 @@ class Game {
     LoseGame(){
         console.log('Lose');
         this.managers.audioManager.PlaySound('lose')
+
         setTimeout(() => {
-            menu.SetWinScreenOn()
+            menu.SetEndScreenOn('lose')
         }, 1000)
     }
     
     WinGame(){
         console.log('Win');
         this.timer.Stop()
-        this.managers.highscoreManager.SetNewHighscore(this.currentDifficultMode ,this.timer.totalTime)
-
         this.managers.audioManager.PlaySound('win')
+        const newHighscore = this.managers.highscoreManager.SetNewHighscore(this.currentGameSetting ,this.timer.totalTime)
+
         setTimeout(() => {
-            menu.SetWinScreenOn()
+            if(newHighscore)
+            {
+                menu.SetEndScreenOn('highscore')
+            }
+            else
+            {
+                menu.SetEndScreenOn('win')
+            }
         }, 1000)
     }
 }

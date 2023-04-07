@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="./css/colors.css">
     <link rel="stylesheet" href="./css/menu.css">
     <link rel="stylesheet" href="./css/win-screen.css">
+    <link rel="stylesheet" href="./css/lose-screen.css">
+    <link rel="stylesheet" href="./css/highscore-screen.css">
     <link rel="stylesheet" href="./css/settings.css">
     <title>Minesweeper</title>
 </head>
@@ -17,12 +19,43 @@
     <div id="canva">
         <div style="display: none;">Music by <a href="https://pixabay.com/pt/users/viyn-18464741/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=13253">maulana akbarudin</a> from <a href="https://pixabay.com//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=13253">Pixabay</a></div>
 
+        <div id="highscore-screen">
+            <p id="title">NEW HIGHSCORE</p>
+            <img id="trophy" src="./images/highscore.svg">
+            <div id="timer">
+                <img src="./images/timer-white.svg">
+                <p>00:00</p>
+            </div>
+
+            <div class="circle" id="circle-1"></div>
+            <div class="circle" id="circle-2"></div>
+            <div class="circle" id="circle-3"></div>
+            <div class="circle" id="circle-4"></div>
+            <div class="circle" id="circle-5"></div>
+        </div>
+
         <div id="win-screen">
-            <p id="new-highscore">NEW HIGHSCORE</p>
+            <p id="new-highscore">WIN</p>
             <img id="trophy" src="./images/highscore.svg">
             <div id="timer-win">
                 <img src="./images/timer-white.svg">
                 <p>00:00</p>
+            </div>
+
+            <div class="circle" id="circle-1"></div>
+            <div class="circle" id="circle-2"></div>
+            <div class="circle" id="circle-3"></div>
+            <div class="circle" id="circle-4"></div>
+            <div class="circle" id="circle-5"></div>
+        </div>
+
+        <div id="lose-screen">
+            <p id="new-highscore">LOSE</p>
+            <div id="bomb-jump">
+                <div id="bomb-spin">
+                    <img id="candy-bomb" src="./images/candy-bomb.svg">
+                    <img id="candy-bomb-fire" src="./images/candy-bomb-fire.svg">
+                </div>
             </div>
 
             <div class="circle" id="circle-1"></div>

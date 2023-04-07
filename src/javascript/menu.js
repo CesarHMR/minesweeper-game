@@ -4,11 +4,14 @@ class Menu{
 
     gameButtons = {}
     highscoreElements = {}
+    endScreens = {}
+    highscoreFromhighscoreScreen
    
-
     constructor(){
         this.menuReference = document.querySelector('#menu')
-        this.winReference = document.querySelector('#win-screen')
+        const keys = ['win', 'lose', 'highscore']
+        keys.forEach(key => this.endScreens[key] = document.querySelector(`#${key}-screen`))
+        this.highscoreFromhighscoreScreen = document.querySelector('#highscore-screen #timer p')    
 
         for(const setting in game.gameSettings){
             this.gameButtons[setting] = document.querySelector(`#${setting}-button`)
@@ -32,18 +35,20 @@ class Menu{
         this.DisplayHighscores()
     }
 
-    DisplayHighscores(){
-        for(const setting in game.gameSettings){
-            this.highscoreElements[setting].innerText = game.managers.highscoreManager.GetGameHighscoreFormated(setting)
-        }
-    }
+    SetEndScreenOn(key){
 
-    SetWinScreenOn(){
-        this.winReference.classList.add('on')
-        this.winReference.classList.remove('off')
+        this.endScreens[key].classList.remove('off')
+        this.endScreens[key].classList.add('on')
+
+        if(key === 'highscore'){
+            this.highscoreFromhighscoreScreen.innetText =
+            game.managers.highscoreManager.GetGameHighscoreFormated(key)
+        }
+
         requestAnimationFrame(() => {
             setTimeout(() => {
-                this.SetWinScreenOff()
+                this.endScreens[key].classList.remove('on')
+                this.endScreens[key].classList.add('off')
                 this.SetMenuOn()
             }, 3000);    
         })
@@ -58,11 +63,6 @@ class Menu{
         }
     }
     
-    SetWinScreenOff(){
-        this.winReference.classList.remove('on')
-        this.winReference.classList.add('off')
-    }
-
     Bite(index){
         setTimeout(() => {
             this.menuReference.className = index == 5 ? '' : `bite-${index}`
@@ -74,6 +74,12 @@ class Menu{
                 window.requestAnimationFrame(() => this.menuReference.style.display = 'none')
             }
         }, 300)
+    }
+
+    DisplayHighscores(){
+        for(const setting in game.gameSettings){
+            this.highscoreElements[setting].innerText = game.managers.highscoreManager.GetGameHighscoreFormated(setting)
+        }
     }
 }
 
