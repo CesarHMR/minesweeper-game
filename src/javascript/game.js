@@ -6,6 +6,7 @@ class Game {
         audioManager: {}
     }
     
+    allowInput
     gameGridReference
     bombDisplayer
     timerDisplayer
@@ -17,26 +18,28 @@ class Game {
     minesAmount = 0
 
     fieldsToAnimate = []
-    fieldAnimationTime
     currentGameSetting
 
     elementOnFocus
 
     gameSettings = {
         small: {
+            name: 'small',
             gridSize: 5,
             minesAmount: 4,
-            fieldAnimationTime: 200
+            delayInMilliseconds: 200
         },
         big: {
+            name: 'big',
             gridSize: 8,
             minesAmount: 10,
-            fieldAnimationTime: 150
+            delayInMilliseconds: 150
         },
         huge:{
+            name: 'huge',
             gridSize: 12,
             minesAmount: 22,
-            fieldAnimationTime: 100
+            delayInMilliseconds: 100
         }
     }
 
@@ -52,15 +55,33 @@ class Game {
         this.timer = new Timer(this.timerDisplayer)
     }
 
-    SetNewGame(gameSetting) {
-        this.currentGameSetting = gameSetting
-        this.fields = []
+    SetNewGame(gameKey) {
+
+        this.currentGameSetting = this.gameSettings[gameKey]
+
+        this.SetGridSize()
+        this.SetFields()
+        this.DisplayGame()
+
+        window.onmouseup = () => this.RemoveFocusOfField()//find better place to put
+    }
+
+    DisplayGame(){
+        this.bombDisplayer.Display(this.minesAmount)
+        this.timer.Start()
+        this.timer.StartDisplaying()
+        this.allowInput = true
+    }
+
+    SetGridSize(){
         this.gameGridReference.innerHTML = ''
-        this.gridSize = this.gameSettings[gameSetting].gridSize
-        this.minesAmount = this.gameSettings[gameSetting].minesAmount
-        this.fieldAnimationTime = this.gameSettings[gameSetting].fieldAnimationTime
+        this.gridSize = this.currentGameSetting.gridSize
+        this.minesAmount = this.currentGameSetting.minesAmount
         document.querySelector(':root').style.setProperty('--gridSize', this.gridSize);
-    
+    }
+
+    SetFields(){
+        this.fields = []
         for (let index = 0; index < this.gridSize * this.gridSize; index++) {
             this.fields.push({
                 HTMLelement: {},
@@ -75,32 +96,25 @@ class Game {
         this.fields.forEach((field, index) => {
             this.CreateFieldElement(field)
         })
-
-        window.onmouseup = () => {//also add on mouse leave!!!
-            this.elementOnFocus?.classList.remove('focus')
-        }
-
-
-        //Display the game
-        this.bombDisplayer.Display(this.minesAmount)
-        this.timer.Start()
-        this.timer.StartDisplaying()
     }
 
     CreateFieldElement(field){
         field.HTMLelement = document.createElement('button')
         field.HTMLelement.appendChild(document.createElement('div'))
         field.HTMLelement.classList.add('field')
+
         if(field.hasMine){
             field.HTMLelement.classList.add('mine')
         }
     
-        field.HTMLelement.onclick = () => this.RevealField(field)
-        field.HTMLelement.oncontextmenu = () => this.FlagField(field)
-    
+        field.HTMLelement.onclick = () => {
+            if(this.allowInput) this.RevealField(field)
+        }
+        field.HTMLelement.oncontextmenu = () => {
+            if(this.allowInput) this.FlagField(field)
+        }
         field.HTMLelement.onmousedown = () => {
-            field.HTMLelement.classList.add('focus')
-            this.elementOnFocus = field.HTMLelement
+            if(this.allowInput) this.AddFocusToField(field)
         }
 
         this.gameGridReference.appendChild(field.HTMLelement)
@@ -171,19 +185,33 @@ class Game {
             }
         })
     }
+
+    AddFocusToField(field){
+        field.HTMLelement.classList.add('focus')
+        this.elementOnFocus = field.HTMLelement
+    }
+
+    RemoveFocusOfField(){
+        this.elementOnFocus?.classList.remove('focus')
+    }
     
     PlayFieldsAnimation(){
-        let timeToWait = 0
-        this.fieldsToAnimate.forEach(field => {
-            setTimeout(() => {
-                field.classList.add('revealed')
-                this.managers.audioManager.PlaySound('click')
-            }, timeToWait);
+        let delayInMilliseconds = 0
 
-            timeToWait += this.fieldAnimationTime
+        this.fieldsToAnimate.forEach(field => {
+            this.SetAnimation(field, delayInMilliseconds)
+            delayInMilliseconds += this.currentGameSetting.delayInMilliseconds
         })
+
         this.fieldsToAnimate = []
     }
+
+    SetAnimation(field, delay){
+        setTimeout(() => {
+            field.classList.add('revealed')
+            this.managers.audioManager.PlaySound('click')
+        }, delay);
+}
     
     RevealField(field){
         if(field.isRevealed) return
@@ -241,8 +269,11 @@ class Game {
 
     LoseGame(){
         console.log('Lose');
-        this.managers.audioManager.PlaySound('lose')
 
+        this.allowInput = false
+        this.managers.audioManager.PlaySound('lose')
+        this.timer.Stop()
+        
         setTimeout(() => {
             menu.SetEndScreenOn('lose')
         }, 1000)
@@ -250,9 +281,11 @@ class Game {
     
     WinGame(){
         console.log('Win');
+
+        this.allowInput = false
         this.timer.Stop()
         this.managers.audioManager.PlaySound('win')
-        const newHighscore = this.managers.highscoreManager.SetNewHighscore(this.currentGameSetting ,this.timer.totalTime)
+        const newHighscore = this.managers.highscoreManager.SetNewHighscore(this.currentGameSetting.name ,this.timer.totalTime)
 
         setTimeout(() => {
             if(newHighscore)

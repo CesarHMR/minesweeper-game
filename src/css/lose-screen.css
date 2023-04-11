@@ -19,7 +19,7 @@
     display: flex;
 }
 
-#lose-screen #new-highscore{
+#lose-screen #title{
     color: white;
     font-size: 2rem;
     text-align: center;
@@ -30,12 +30,12 @@
     z-index: 100;
 }
 
-#lose-screen.on #new-highscore{
+#lose-screen.on #title{
     opacity: 0;
     animation: expand 700ms 500ms ease forwards;
 }
 
-#lose-screen.off #new-highscore{
+#lose-screen.off #title{
     opacity: 1;
     animation: retract 700ms ease forwards;
 }
@@ -50,7 +50,7 @@
 }
 
 #lose-screen.on #bomb-jump{
-    animation: candy-image 3000ms ease-in-out forwards;
+    animation: candy-image 2000ms ease-in-out forwards;
 }
 
 #lose-screen #bomb-spin{
@@ -64,7 +64,7 @@
 }
 
 #lose-screen.on #bomb-spin{
-    animation: candy-bomb 3000ms linear forwards;
+    animation: candy-bomb 2000ms linear forwards;
 }
 
 #lose-screen #candy-bomb{
@@ -176,7 +176,7 @@
 @keyframes candy-bomb {
     0%{
         opacity: 1;
-        transform: rotate(0deg);
+        transform: rotate(180deg);
     }
     100%{
         opacity: 1;

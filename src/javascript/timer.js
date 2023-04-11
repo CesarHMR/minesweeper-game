@@ -18,6 +18,7 @@ class Timer{
 
     Stop(){
         this.totalTime = this.GetTime()
+        this.StopDisplaying()
     }
         
     Pause(){

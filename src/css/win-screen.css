@@ -19,7 +19,7 @@
     display: flex;
 }
 
-#win-screen #new-highscore{
+#win-screen #title{
     color: white;
     font-size: 2rem;
     text-align: center;
@@ -30,28 +30,78 @@
     z-index: 100;
 }
 
-#win-screen.on #new-highscore{
+#win-screen.on #title{
     opacity: 0;
     animation: expand 700ms 500ms ease forwards;
 }
 
-#win-screen.off #new-highscore{
+#win-screen.off #title{
     opacity: 1;
     animation: retract 700ms ease forwards;
 }
 
-#trophy{
+#plus-one{
+    font-size: 1.5rem;
+    color: white;
+    position: absolute;
+    z-index: 600;
+    top: 210px;
+    opacity: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#win-screen.on #plus-one{
+    animation: plus-one 3000ms 1000ms ease;
+}
+
+@keyframes plus-one {
+    0%{
+        opacity: 0;
+        transform: translate(0, 0) scale(.5);
+    }
+    30%{
+        opacity: 1;
+        transform: translate(0, -20px) scale(1);
+    }
+    90%{
+        opacity: 1;
+        transform: translate(0, -20px) scale(1);
+    }
+    100%{
+        opacity: 0;
+        transform: translate(0, -25px) scale(0);
+        
+    }
+}
+
+#donut-spin{
+    position: absolute;
+    opacity: 0;
+    z-index: 60;
+}
+
+#win-screen.on #donut-spin{
+    opacity: 1;
+    animation: donut-spin 1500ms infinite linear;
+}
+
+#donut-jump{
+    width: 300px;
+    height: 300px;
+
     position: absolute;
     z-index: 60;
-    bottom: 29%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#win-screen.on #trophy{
-    animation: pop-up 1100ms ease forwards;
-}
-
-#win-screen.off #trophy{
-    animation: pop-out 1000ms ease forwards;
+#win-screen.on #donut-jump{
+    animation: donut-jump 2500ms infinite ease-in-out;
 }
 
 #timer-win{
@@ -138,56 +188,23 @@
     background-color: #00FDB1;
 }
 
-@keyframes pop-up {
+@keyframes donut-jump{
     0%{
-        transform: scale(0) rotate(-180deg);
-    }
-    60%{
-        transform: scale(1.1) rotate(3deg);
-    }
-    100%{
-        transform: scale(1) rotate(0deg);
-    }
-}
-
-@keyframes pop-out {
-    0%{
-        transform: scale(1) rotate(0deg);
-    }
-    60%{
-        transform: scale(1.2) rotate(20deg);
-    }
-    100%{
-        transform: scale(0) rotate(-180deg);
-    }
-}
-
-@keyframes expand {
-    0%{
-        transform: scale(0);
-        opacity: 1;
+        transform: translateY(150%);
     }
     50%{
-        transform: scale(1.03);
-        opacity: 1;
+        transform: translateY(-10%);
     }
     100%{
-        transform: scale(1);
-        opacity: 1;
+        transform: translateY(150%);
     }
 }
 
-@keyframes retract {
+@keyframes donut-spin {
     0%{
-        transform: scale(1);
-        opacity: 1;
-    }
-    30%{
-        transform: scale(1.03);
-        opacity: 1;
+        transform: rotate(0deg);
     }
     100%{
-        transform: scale(0);
-        opacity: 1;
+        transform: rotate(360deg)
     }
 }

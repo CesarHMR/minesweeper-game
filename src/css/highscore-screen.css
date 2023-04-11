@@ -19,7 +19,7 @@
     display: flex;
 }
 
-#highscore-screen #new-highscore{
+#highscore-screen #title{
     color: white;
     font-size: 2rem;
     text-align: center;
@@ -30,12 +30,12 @@
     z-index: 100;
 }
 
-#highscore-screen.on #new-highscore{
+#highscore-screen.on #title{
     opacity: 0;
     animation: expand 700ms 500ms ease forwards;
 }
 
-#highscore-screen.off #new-highscore{
+#highscore-screen.off #title{
     opacity: 1;
     animation: retract 700ms ease forwards;
 }

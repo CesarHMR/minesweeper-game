@@ -26,23 +26,25 @@ class Menu{
         this.RemoveNewHighscore()
     }
     
+    SetMenuOn(){
+        this.DisplayHighscores()
+        this.menuReference.style["pointer-events"] = "auto";
+        this.menuReference.style.display = "flex";
+    }
+    
     SetMenuOff(){
+        this.menuReference.style["pointer-events"] = "none";
         this.Bite(1)
     }
-
-    SetMenuOn(){
-        this.menuReference.style.display = 'flex'
-        this.DisplayHighscores()
-    }
-
+    
     SetEndScreenOn(key){
 
         this.endScreens[key].classList.remove('off')
         this.endScreens[key].classList.add('on')
 
         if(key === 'highscore'){
-            this.highscoreFromhighscoreScreen.innetText =
-            game.managers.highscoreManager.GetGameHighscoreFormated(key)
+            this.highscoreFromhighscoreScreen.innerText = game.managers.highscoreManager.GetGameHighscoreFormated(game.currentGameSetting.name)
+            console.log(this.highscoreFromhighscoreScreen)
         }
 
         requestAnimationFrame(() => {
@@ -55,8 +57,10 @@ class Menu{
     }
 
     NewHighscore(setting){
+        console.log(setting)
         this.highscoreElements[setting].classList.add('new')
     }
+
     RemoveNewHighscore(){
         for(const setting in this.highscoreElements){
             this.highscoreElements[setting].classList.remove('new')
@@ -73,7 +77,7 @@ class Menu{
             else{
                 window.requestAnimationFrame(() => this.menuReference.style.display = 'none')
             }
-        }, 300)
+        }, 150)
     }
 
     DisplayHighscores(){

@@ -102,31 +102,9 @@
 
 @keyframes glow {
     30%{
-        transform: scale(1.1);
+        transform: scale(1.2);
         color: rgb(255, 230, 0);
     }
-}
-
-/* ----- Dunot Animation -----*/
-
-#donut-jump{
-    position: absolute;
-    bottom: -250px;
-    width: 100%;
-    
-    animation: jump 6000ms 1000ms ease-in-out infinite;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#donut-move{
-    animation: move 6000ms 1000ms ease-in-out infinite;
-}
-
-#donut-img{
-    animation: spin 3000ms linear infinite;
 }
 
 #menu h1{
@@ -137,43 +115,4 @@
 
 #menu span{
     color: #ff256a;
-}
-
-@keyframes spin {
-    from{
-        transform: rotateZ(0deg);
-    }
-    to{
-        transform: rotateZ(360deg);
-    }
-}
-
-@keyframes jump {
-    0%{
-        transform: translateY(300px);
-    }
-    25%{
-        transform: translateY(-250px);
-    }
-    50%{
-        transform: translateY(300px);
-    }
-    75%{
-        transform: translateY(-150px);
-    }
-    100%{
-        transform: translateY(300px);
-    }
-}
-
-@keyframes move {
-    0%{
-        transform: translateX(90px);
-    }
-    50%{
-        transform:  translateX(-90px);
-    }
-    100%{
-        transform: translateX(90px);
-    }
 }
