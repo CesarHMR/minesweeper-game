@@ -7,6 +7,7 @@ class Game {
     }
     
     allowInput
+    minesAreSetted
     gameGridReference
     bombDisplayer
     timerDisplayer
@@ -27,19 +28,22 @@ class Game {
             name: 'small',
             gridSize: 5,
             minesAmount: 4,
-            delayInMilliseconds: 200
+            delayInMilliseconds: 200,
+            explosionDelay: 300,
         },
         big: {
             name: 'big',
             gridSize: 8,
             minesAmount: 10,
-            delayInMilliseconds: 150
+            delayInMilliseconds: 150,
+            explosionDelay: 150,
         },
         huge:{
             name: 'huge',
             gridSize: 12,
             minesAmount: 22,
-            delayInMilliseconds: 100
+            delayInMilliseconds: 100,
+            explosionDelay: 80,
         }
     }
 
@@ -70,6 +74,7 @@ class Game {
         this.bombDisplayer.Display(this.minesAmount)
         this.timer.Start()
         this.timer.StartDisplaying()
+        this.minesAreSetted = false
         this.allowInput = true
     }
 
@@ -114,6 +119,8 @@ class Game {
             if(fieldsThatCanBeMined[index].hasMine)
                 fieldsThatCanBeMined[index].HTMLelement.classList.add('mine')
         }
+
+        this.minesAreSetted = true
     }
 
     CreateFieldElement(field){
@@ -122,7 +129,7 @@ class Game {
         field.HTMLelement.classList.add('field')
     
         field.HTMLelement.onclick = () => {
-            if(this.allowInput) this.SetMines(field)
+            if(this.allowInput && !this.minesAreSetted) this.SetMines(field)
             if(this.allowInput) this.RevealField(field)
         }
         field.HTMLelement.oncontextmenu = () => {
@@ -214,31 +221,35 @@ class Game {
         let delayInMilliseconds = 0
 
         this.fieldsToAnimate.forEach(field => {
-            this.SetAnimation(field, delayInMilliseconds)
+            this.SetAnimation(field, delayInMilliseconds, 'click')
             delayInMilliseconds += this.currentGameSetting.delayInMilliseconds
         })
 
         this.fieldsToAnimate = []
     }
 
-    SetAnimation(field, delay){
+    SetAnimation(field, delay, sound){
         setTimeout(() => {
             field.classList.add('revealed')
-            this.managers.audioManager.PlaySound('click')
+            field.classList.remove('flag')
+            console.log('anim')
+            this.managers.audioManager.PlaySound(sound)
         }, delay);
-}
+    }
     
     RevealField(field){
         if(field.isRevealed) return
         if(field.hasFlag) return
 
-        this.ClearField(field)
-        this.PlayFieldsAnimation()
         
         if(field.hasMine){
-            this.LoseGame()
+            this.LoseGame(field)
         }
-
+        else{
+            this.ClearField(field)
+            this.PlayFieldsAnimation()
+        }
+        
         if(this.CheckWinCondition()){
             this.WinGame()
         }
@@ -282,16 +293,18 @@ class Game {
         return satisfiesWinCondition
     }
 
-    LoseGame(){
+    LoseGame(field){
         console.log('Lose');
 
         this.allowInput = false
-        this.managers.audioManager.PlaySound('lose')
         this.timer.Stop()
+
+        this.RevealFieldsWithMines(field)
         
         setTimeout(() => {
+            this.managers.audioManager.PlaySound('lose')
             menu.SetEndScreenOn('lose')
-        }, 1000)
+        }, 3000)
     }
     
     WinGame(){
@@ -312,6 +325,23 @@ class Game {
                 menu.SetEndScreenOn('win')
             }
         }, 1000)
+    }
+
+    RevealFieldsWithMines(clickedField){
+        let fieldsWithMine = this.fields.filter(field => field.hasMine && field != clickedField)
+        fieldsWithMine.unshift(clickedField)
+        this.PlayFieldsMinesAnimation(fieldsWithMine)
+    }
+    
+    PlayFieldsMinesAnimation(fieldsWithMine){
+        let delayInMilliseconds = 0
+
+        fieldsWithMine.forEach(field => {
+            this.SetAnimation(field.HTMLelement, delayInMilliseconds, 'bomb')
+            delayInMilliseconds += this.currentGameSetting.explosionDelay
+        })
+
+        this.fieldsToAnimate = []
     }
 }
 

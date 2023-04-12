@@ -36,6 +36,12 @@ class AudioManager{
             volume: 0.07,
             loop: true,
             mixer: 'music'
+        },
+        bomb: {
+            audio: [],
+            volume: 0.2,
+            loop: false,
+            mixer: 'fx'
         }
     }
 
@@ -55,6 +61,7 @@ class AudioManager{
         this.audioConfigs['bite_1'].audio = this.CreateAudioPool('./sounds/bite_1.mp3', 1)
         this.audioConfigs['bite_2'].audio = this.CreateAudioPool('./sounds/bite_2.mp3', 1)
         this.audioConfigs['music'].audio = this.CreateAudioPool('./sounds/music.mp3', 1)
+        this.audioConfigs['bomb'].audio = this.CreateAudioPool('./sounds/bomb.wav', 5)
     }
 
     PlaySound(key){
