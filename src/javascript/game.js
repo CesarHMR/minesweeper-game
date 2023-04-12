@@ -82,32 +82,47 @@ class Game {
 
     SetFields(){
         this.fields = []
+
         for (let index = 0; index < this.gridSize * this.gridSize; index++) {
             this.fields.push({
                 HTMLelement: {},
-                hasMine: this.minesAmount > index ? true : false,
+                hasMine: false,
                 hasFlag: false,
                 isRevealed: false
             })
         }
 
-        this.fields = this.fields.sort(() => Math.random() - 0.5)
-
         this.fields.forEach((field, index) => {
             this.CreateFieldElement(field)
         })
+    }
+    
+    SetMines(clickedField){
+        const fieldsThatCanBeMined = this.fields.filter(field => field != clickedField)
+
+        let mines = []
+
+        for (let index = 0; index < fieldsThatCanBeMined.length; index++) {
+            mines.push(this.currentGameSetting.minesAmount > index)
+        }
+
+        mines = mines.sort(() => Math.random() - 0.5)
+
+        for (let index = 0; index < fieldsThatCanBeMined.length; index++) {
+            fieldsThatCanBeMined[index].hasMine = mines[index]
+            
+            if(fieldsThatCanBeMined[index].hasMine)
+                fieldsThatCanBeMined[index].HTMLelement.classList.add('mine')
+        }
     }
 
     CreateFieldElement(field){
         field.HTMLelement = document.createElement('button')
         field.HTMLelement.appendChild(document.createElement('div'))
         field.HTMLelement.classList.add('field')
-
-        if(field.hasMine){
-            field.HTMLelement.classList.add('mine')
-        }
     
         field.HTMLelement.onclick = () => {
+            if(this.allowInput) this.SetMines(field)
             if(this.allowInput) this.RevealField(field)
         }
         field.HTMLelement.oncontextmenu = () => {
