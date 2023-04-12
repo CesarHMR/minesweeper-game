@@ -73,7 +73,6 @@ class Game {
     DisplayGame(){
         this.bombDisplayer.Display(this.minesAmount)
         this.timer.Start()
-        this.timer.StartDisplaying()
         this.minesAreSetted = false
         this.allowInput = true
     }
@@ -232,7 +231,6 @@ class Game {
         setTimeout(() => {
             field.classList.add('revealed')
             field.classList.remove('flag')
-            console.log('anim')
             this.managers.audioManager.PlaySound(sound)
         }, delay);
     }

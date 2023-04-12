@@ -1,47 +1,58 @@
 class AudioManager{
 
+    soundsPath = './sounds/'
+
     audioConfigs = {
         click: {
             audio: [],
             volume: 0.2,
             loop: false,
-            mixer: 'fx'
+            mixer: 'fx',
+            format: '.mp3',
+            amount: 4,
         },
         win: {
             audio: [],
             volume: 0.2,
             loop: false,
-            mixer: 'fx'
+            mixer: 'fx',
+            format: '.mp3'
         },
         lose: {
             audio: [],
             volume: 0.2,
             loop: false,
-            mixer: 'fx'
+            mixer: 'fx',
+            format: '.mp3'
         },
         bite_1: {
             audio: [],
             volume: 0.2,
             loop: false,
-            mixer: 'fx'
+            mixer: 'fx',
+            format: '.mp3'
         },
         bite_2: {
             audio: [],
             volume: 0.2,
             loop: false,
-            mixer: 'fx'
+            mixer: 'fx',
+            format: '.mp3'
         },
         music: {
             audio: [],
             volume: 0.07,
             loop: true,
+            format: '.mp3',
             mixer: 'music'
         },
         bomb: {
             audio: [],
             volume: 0.2,
             loop: false,
-            mixer: 'fx'
+            mixer: 'fx',
+            format: '.wav',
+            amount: 5,
         }
     }
 
@@ -53,20 +64,19 @@ class AudioManager{
             volume: 1
         }
     }
+
+    audioPool = {}
     
     constructor(){
-        this.audioConfigs['click'].audio = this.CreateAudioPool('./sounds/click.mp3', 4)
-        this.audioConfigs['win'].audio = this.CreateAudioPool('./sounds/win.mp3', 1)
-        this.audioConfigs['lose'].audio = this.CreateAudioPool('./sounds/lose.mp3', 1)
-        this.audioConfigs['bite_1'].audio = this.CreateAudioPool('./sounds/bite_1.mp3', 1)
-        this.audioConfigs['bite_2'].audio = this.CreateAudioPool('./sounds/bite_2.mp3', 1)
-        this.audioConfigs['music'].audio = this.CreateAudioPool('./sounds/music.mp3', 1)
-        this.audioConfigs['bomb'].audio = this.CreateAudioPool('./sounds/bomb.wav', 5)
+
+        for(const audio in this.audioConfigs){
+            this.audioPool[audio] = this.CreateAudioPool(audio, this.audioConfigs[audio])
+        }
     }
 
     PlaySound(key){
         const config = this.audioConfigs[key]
-        const audio = this.GetFromPool(config.audio)
+        const audio = this.GetFromPool(this.audioPool[key])
         const mixerVolume = this.mixerConfigs[config.mixer].volume
         
         audio.volume = config.volume * mixerVolume
@@ -76,14 +86,18 @@ class AudioManager{
     }
 
     StopSound(key){
-        const audios = this.audioConfigs[key].audio
+        const audios = this.audioPool[key]
         audios.forEach(audio => {
             audio.pause()
         })
     }
     
-    CreateAudioPool(src, amount){
+    CreateAudioPool(name, config){
+
         const pool = []
+
+        const amount = config.amount || 1
+        const src = './sounds/' + name + config.format
     
         for (let index = 0; index < amount; index++) {
             pool.push(new Audio(src))
@@ -106,7 +120,7 @@ class AudioManager{
 
         for(const key in this.audioConfigs){
             if(this.audioConfigs[key].mixer == mixerKey && this.audioConfigs[key].loop == true){
-                this.audioConfigs[key].audio.forEach(audio => {
+                this.audioPool[key].forEach(audio => {
                     audio.volume = parseFloat(this.audioConfigs[key].volume * normalizedValue)
                 });
             }
