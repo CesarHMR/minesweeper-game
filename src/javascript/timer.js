@@ -22,6 +22,7 @@ class Timer{
     }
 
     Stop(){
+        if(!this.ChangeState('stoped')) return
         this.totalTime = this.GetTime()
         this.StopDisplaying()
     }
@@ -70,7 +71,7 @@ class Timer{
     ChangeState(state){
         switch (state){
             case 'running':
-                if(this.currentState === 'none' || this.currentState === 'paused'){
+                if(this.currentState === 'none' || this.currentState === 'paused' || this.currentState === 'stoped'){
                     console.log(this.currentState, state, 'true')
                     this.currentState = state
                     return true
