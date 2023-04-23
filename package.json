@@ -1,18 +1,37 @@
 {
-  "name": "minesweeper",
+  "name": "donutsweeper",
   "version": "1.0.0",
   "description": "A donut themed minesweeper made with electron!",
   "icon": "./src/images/icons/icon_256.png",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "nodemon --exec electron ."
+    "dev": "nodemon --exec electron .",
+    "build": "electron-builder"
   },
   "keywords": [],
   "author": "Cesar Henrique Martins da Rosa",
   "license": "MIT",
   "devDependencies": {
     "electron": "^23.1.4",
+    "electron-builder": "^23.6.0",
     "nodemon": "^2.0.22"
+  },
+  "build": {
+    "appId": "Donutsweeper",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "installerIcon": "icon.ico",
+      "uninstallerIcon": "icon.ico",
+      "uninstallDisplayName": "Donutsweeper",
+      "license": "license.md",
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }

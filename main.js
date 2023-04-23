@@ -18,6 +18,7 @@ const createWindow = () => {
         transparent: true,
         frame: false,
         webPreferences: {
+            devTools: false,
             nodeIntegration: false,
             contextIsolation: true,
             enableRemoteModule: false,
@@ -80,7 +81,7 @@ const quitPhrases = [
 ipcMain.on('save-data', (event, data) => {
     const filepath = data[0]
     const content = data[1]
-    fs.writeFileSync(path.join(__dirname, 'src', 'data', filepath), content)
+    fs.writeFileSync(path.join(__dirname, 'src', 'data', filepath), content, {flag: 'wx'})
     console.log('Sucess!')
 })
 
