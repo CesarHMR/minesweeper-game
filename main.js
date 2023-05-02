@@ -18,7 +18,7 @@ const createWindow = () => {
         transparent: true,
         frame: false,
         webPreferences: {
-            devTools: false,
+            //devTools: false,
             nodeIntegration: false,
             contextIsolation: true,
             enableRemoteModule: false,
@@ -81,17 +81,19 @@ const quitPhrases = [
 ipcMain.on('save-data', (event, data) => {
     const filepath = data[0]
     const content = data[1]
-    fs.writeFileSync(path.join(__dirname, 'src', 'data', filepath), content, {flag: 'wx'})
+    fs.writeFileSync(path.join(app.getPath('userData'), filepath), content)
     console.log('Sucess!')
 })
 
-ipcMain.on('read-data', (event, filename) => {
-    const file = fs.readFileSync(path.join(__dirname, 'src', 'data' , filename), 'utf8')
-    event.sender.send('data-readed', file)
-})
+// ipcMain.on('read-data', (event, filename) => {
+//     const file = fs.readFileSync(path.join(app.getPath('userData'), filename), 'utf8')
+//     console.log(file)
+//     event.sender.send('data-readed', file)
+// })
 
 ipcMain.on('read-data-sync', (event, filename) => {
-    const filepath = path.join(__dirname, 'src', 'data', filename)
+    console.log('reading')
+    const filepath = path.join(app.getPath('userData'), filename)
     if(fs.existsSync(filepath)){
         const file = fs.readFileSync(filepath, 'utf8')
         event.returnValue = file
